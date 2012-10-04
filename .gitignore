@@ -1,6 +1,19 @@
 # Build Folders (you can keep bin if you'd like, to store dlls and pdbs)
 bin
 obj
+logs
+*.suo
+*.user
+*.vssscc
+*.vspscc
+*.backup
+*.backup.*
+*.sdf
+*.vsmdi
+*.log
+*.Publish
+*.Publish.*
+_ReSharper*
 
 # mstest test results
 TestResults
