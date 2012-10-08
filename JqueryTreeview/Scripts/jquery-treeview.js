@@ -2,23 +2,23 @@
     // this.element -- a jQuery object of the element the widget was invoked on.
     // this.options -- the merged options hash.
     $.widget("roicp_js.treeview", {
-        _thisWidget: null,
+        self: null,
         _treeViewDataSource: null,
-        
+
         options: {
             //treeViewDataSource: null
         },
 
         _create: function () {
-            _thisWidget = this;
-            _thisWidget._initializeTreeViewBaseTag();
-            _thisWidget._initializeTreeViewDataSourceWithRoots();
+            self = this;
+            self._initializeTreeViewBaseTag();
+            self._initializeTreeViewDataSourceWithRoots();
         },
 
         _initializeTreeViewBaseTag: function () {
             var baseTag = $("<ul />");
             baseTag.addClass("base_tag");
-            baseTag.appendTo(_thisWidget.element);
+            baseTag.appendTo(self.element);
         },
 
         _initializeTreeViewDataSourceWithRoots: function () {
@@ -29,8 +29,8 @@
                 data: "{ 'upperId':'0' }",
                 dataType: "json",
                 success: function (data) {
-                    _thisWidget._treeViewDataSource = data;
-                    _thisWidget._initializeTreeViewRootNodes();
+                    self._treeViewDataSource = data;
+                    self._initializeTreeViewRootNodes();
                 },
                 error: function () {
                     alert("An error occurred when trying to obtain the roots");
@@ -39,14 +39,22 @@
         },
 
         _initializeTreeViewRootNodes: function () {
-            $.each(_thisWidget._treeViewDataSource, function () {
+            $.each(self._treeViewDataSource, function () {
                 var nodeText = this.Name;
-                nodeText += ((this.HasChild) ? "&nbsp;<span class='span_expand'><a href='javascript:expandNode(" + this.Id + ")' alt='expandable'>Expand</a></span>" : "");
-                nodeText += ((this.Selectable) ? "&nbsp;<span class='span_selectable'><a href='javascript:selectNode(" + this.Id + ")' alt='selectable'>Select</a></span>" : "");
+                nodeText += ((this.HasChild) ? "&nbsp;<span id='" + this.Id + "' class='span_expand'>Expand</span>" : "");
+                nodeText += ((this.Selectable) ? "&nbsp;<span id='" + this.Id + "' class='span_selectable'>Select</span>" : "");
 
                 var rootNodeTag = $("<li />");
                 rootNodeTag.html(nodeText);
-                rootNodeTag.addClass("root_node").attr("id", this.Id).appendTo(_thisWidget.element.children(".base_tag").first());
+                rootNodeTag.addClass("root_node").attr("id", this.Id).appendTo(self.element.children(".base_tag").first());
+            });
+
+            self.element.find(".span_expand").bind("click", function () {
+                self._expandNode($(this).attr("id"));
+            });
+
+            self.element.find(".span_selectable").bind("click", function () {
+                self._selectNode($(this).attr("id"));
             });
         },
 
@@ -61,7 +69,7 @@
                 dataType: "json",
                 success: function (data) {
                     currentNode.Children = data;
-                    _thisWidget._expandNodeGetNodeChildrenCompleted(currentNode);
+                    self._expandNodeGetNodeChildrenCompleted(currentNode);
                 },
                 error: function () {
                     alert("An error occurred when trying to obtain the children");
@@ -76,37 +84,61 @@
 
                 $.each(currentNode.Children, function () {
                     var nodeText = this.Name;
-                    nodeText += ((this.HasChild) ? "&nbsp;<span class='span_expand'><a href='javascript:expandNode(" + this.Id + ")' alt='expandable'>Expand</a></span>" : "");
-                    nodeText += ((this.Selectable) ? "&nbsp;<span class='span_selectable'><a href='javascript:selectNode(" + this.Id + ")' alt='select'>Select</a></span>" : "");
+                    nodeText += ((this.HasChild) ? "&nbsp;<span id='" + this.Id + "' class='span_expand'>Expand</span>" : "");
+                    nodeText += ((this.Selectable) ? "&nbsp;<span id='" + this.Id + "' class='span_selectable'>Select</span>" : "");
 
                     var childNodeInnerTag = $("<li />");
                     childNodeInnerTag.html(nodeText);
                     childNodeInnerTag.addClass("child_node").attr("id", this.Id).appendTo(childNodeTag);
                 });
-                
-                childNodeTag.appendTo(_thisWidget.element.find("li[id='" + currentNode.Id + "']").first());
+
+                childNodeTag.appendTo(self.element.find("li[id='" + currentNode.Id + "']").first());
+
+
+                self.element.find(".span_expand").bind("click", function () {
+                    self._expandNode($(this).attr("id"));
+                });
+
+                self.element.find(".span_selectable").bind("click", function () {
+                    self._selectNode($(this).attr("id"));
+                });
             }
         },
 
         _expandNode: function (itemNodeId) {
-            var currentItem = _thisWidget._findItemInDataSource(_treeViewDataSource, itemNodeId);
+            var currentItem = self._findItemInDataSource(self._treeViewDataSource, itemNodeId);
 
-            var currentNode = _thisWidget.element.find("li[id='" + currentItem.Id + "']").first();
-            currentNode.children(".span_expand").html("<a href='javascript:collapseNode(" + currentItem.Id + ")' alt='collapsible'>Collapse</a>");
+            var currentNode = self.element.find("li[id='" + currentItem.Id + "']").first();
+            
+            self.element.find(".span_expand").unbind('click');
 
-            _thisWidget._getChildrenNodes(currentItem);
+            currentNode.children(".span_expand").removeClass("span_expand").addClass("span_collapse").html("Collapse");
+
+            self.element.find(".span_collapse").bind("click", function () {
+                self._collapseNode($(this).attr("id"));
+            });
+
+
+            self._getChildrenNodes(currentItem);
         },
 
         _collapseNode: function (itemNodeId) {
-            var currentItem = _thisWidget._findItemInDataSource(_treeViewDataSource, itemNodeId);
+            var currentItem = self._findItemInDataSource(_treeViewDataSource, itemNodeId);
 
-            var currentNode = _thisWidget.element.find("li[id='" + currentItem.Id + "']").first();
-            currentNode.children(".span_expand").html("<a href='javascript:expandNode(" + currentItem.Id + ")' alt='expandable'>Expand</a>");
+            var currentNode = self.element.find("li[id='" + currentItem.Id + "']").first();
+
+            self.element.find(".span_collapse").unbind('click');
+
+            currentNode.children(".span_collapse").removeClass("span_collapse").addClass(".pan_expand").html("Expand");
             currentNode.children("ul").remove();
 
             if (currentItem.Children != null && currentItem.Children.length > 0) {
                 currentItem.Children = null;
             }
+
+            self.element.find(".span_expand").bind("click", function () {
+                self._expandNode($(this).attr("id"));
+            });
         },
 
         _findItemInDataSource: function (dataSource, itemId) {
@@ -121,7 +153,7 @@
                 }
 
                 if (item.Children != null && item.Children.length > 0) {
-                    currentNode = _thisWidget._findItemInDataSource(item.Children, itemId);
+                    currentNode = self._findItemInDataSource(item.Children, itemId);
 
                     if (currentNode != null) {
                         break;
@@ -133,7 +165,7 @@
         },
 
         _selectNode: function (itemNodeId) {
-            return _thisWidget._findItemInDataSource(_treeViewDataSource, itemNodeId);
+            return self._findItemInDataSource(_treeViewDataSource, itemNodeId);
         },
 
         _setOption: function (key, value) {

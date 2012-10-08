@@ -14,6 +14,11 @@
 }
 
 .span_expand {
+    color: blueviolet;
+}
+
+.span_collapse {
+    color: crimson;
 }
 
 .span_selectable {
