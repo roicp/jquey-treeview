@@ -161,7 +161,8 @@ namespace JqueryTreeview.Models
                         {
                             Id = 12,
                             Name = "Electronics & Computers",
-                            Description = "All the new stuff right here"
+                            Description = "All the new stuff right here",
+                            Selectable = true
                         },
                     new Category
                         {
