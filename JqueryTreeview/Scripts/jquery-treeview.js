@@ -14,7 +14,7 @@ function initializeTreeViewBaseTag() {
 }
 
 function initializeTreeViewRootNodes() {
-    $.each(treeViewDataSource, function (index) {
+    $.each(treeViewDataSource, function () {
         var nodeText = this.Name;
         nodeText += ((this.HasChild) ? "&nbsp;<span class='span_expand'><a href='javascript:expandNode(" + this.Id + ")' alt='expandable'>Expand</a></span>" : "");
         nodeText += ((this.Selectable) ? "&nbsp;<span class='span_selectable'><a href='javascript:selectNode(" + this.Id + ")' alt='select'>Select</a></span>" : "");
@@ -31,7 +31,19 @@ function expandNode(itemNodeId) {
     var currentNode = treeViewContainer.find("li[id='" + currentItem.Id + "']").first();
     currentNode.children(".span_expand").html("<a href='javascript:collapseNode(" + currentItem.Id + ")' alt='collapsible'>Collapse</a>");
     
-    getNodeChildren(currentItem);
+    getChildrenNodes(currentItem);
+}
+
+function collapseNode(itemNodeId) {
+    var currentItem = findItemInDataSource(treeViewDataSource, itemNodeId);
+    
+    var currentNode = treeViewContainer.find("li[id='" + currentItem.Id + "']").first();
+    currentNode.children(".span_expand").html("<a href='javascript:expandNode(" + currentItem.Id + ")' alt='expandable'>Expand</a>");
+    currentNode.children("ul").remove();
+    
+    if (currentItem.Children != null && currentItem.Children.length > 0) {
+        currentItem.Children = null;
+    }
 }
 
 function findItemInDataSource(dataSource, itemId) {
@@ -62,7 +74,7 @@ function expandNodeGetNodeChildrenCompleted(currentNode) {
         var childNodeTag = $("<ul />");
         childNodeTag.addClass("child_base_tag");
 
-        $.each(currentNode.Children, function (index) {
+        $.each(currentNode.Children, function () {
             var nodeText = this.Name;
             nodeText += ((this.HasChild) ? "&nbsp;<span class='span_expand'><a href='javascript:expandNode(" + this.Id + ")' alt='expandable'>Expand</a></span>" : "");
             nodeText += ((this.Selectable) ? "&nbsp;<span class='span_selectable'><a href='javascript:selectNode(" + this.Id + ")' alt='select'>Select</a></span>" : "");
@@ -83,17 +95,17 @@ function initializeTreeViewDataSourceWithRoots() {
         url: "/Home/GetCategories",
         data: "{ 'upperId':'0' }",
         dataType: "json",
-        success: function (data, textStatus, jqXHR) {
+        success: function (data) {
             treeViewDataSource = data;
             initializeTreeViewRootNodes();
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        error: function () {
             alert("an error ocurred");
         }
     });
 }
 
-function getNodeChildren(currentNode) {
+function getChildrenNodes(currentNode) {
     currentNode.Children = null;
 
     $.ajax({
@@ -102,11 +114,11 @@ function getNodeChildren(currentNode) {
         url: "/Home/GetCategories",
         data: "{ 'upperId':'" + currentNode.Id + "' }",
         dataType: "json",
-        success: function (data, textStatus, jqXHR) {
+        success: function (data) {
             currentNode.Children = data;
             expandNodeGetNodeChildrenCompleted(currentNode);
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        error: function () {
             alert("an error ocurred");
         }
     });
