@@ -8,8 +8,6 @@ namespace JqueryTreeview.Controllers
     {
         public ActionResult Index()
         {
-            var listOfCategories = Category.GetCategories();
-
             return View();
         }
 
