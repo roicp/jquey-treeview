@@ -28,7 +28,7 @@ namespace JqueryTreeview.Models
 
             return listOfCategories.Where(c => upperId.Equals(c.UpperCategoryId));
         }
-        
+
         private static IEnumerable<Category> GetAllCategoriesAsFlatList()
         {
             var listOfCategories = new List<Category>
@@ -170,6 +170,15 @@ namespace JqueryTreeview.Models
                             Name = "Laptop & Tablet Categories",
                             Description = "Best Sellers, Hot New Releases and Most Gifted",
                             UpperCategoryId = 1222
+                        },
+                
+                    new Category
+                        {
+                            Id = 11213341,
+                            Name = "The End of Your Life Book Club by Will Schwalbe",
+                            Description = "That’s the question Will Schwalbe asks his mother, Mary Anne, as they sit in the waiting room of the Memorial Sloan-Kettering Cancer Center. In 2007, Mary Anne returned from a humanitarian trip to Pakistan and Afghanistan suffering from what her doctors believed was a rare type of hepatitis. Months later she was diagnosed with a form of advanced pancreatic cancer, which is almost always fatal, often in six months or less",
+                            UpperCategoryId = 112133,
+                            Selectable = true
                         }
                 };
 

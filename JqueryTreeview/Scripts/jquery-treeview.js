@@ -29,7 +29,7 @@ function expandNode(itemNodeId) {
     var currentItem = findItemInDataSource(treeViewDataSource, itemNodeId);
     
     var currentNode = treeViewContainer.find("li[id='" + currentItem.Id + "']").first();
-    currentNode.children(".span_expand").html("<a href='javascript:collapseNode(" + this.Id + ")' alt='collapsible'>Collapse</a>");
+    currentNode.children(".span_expand").html("<a href='javascript:collapseNode(" + currentItem.Id + ")' alt='collapsible'>Collapse</a>");
     
     getNodeChildren(currentItem);
 }
