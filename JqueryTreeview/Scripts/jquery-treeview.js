@@ -17,7 +17,7 @@ function initializeTreeViewRootNodes() {
     $.each(treeViewDataSource, function () {
         var nodeText = this.Name;
         nodeText += ((this.HasChild) ? "&nbsp;<span class='span_expand'><a href='javascript:expandNode(" + this.Id + ")' alt='expandable'>Expand</a></span>" : "");
-        nodeText += ((this.Selectable) ? "&nbsp;<span class='span_selectable'><a href='javascript:selectNode(" + this.Id + ")' alt='select'>Select</a></span>" : "");
+        nodeText += ((this.Selectable) ? "&nbsp;<span class='span_selectable'><a href='javascript:selectNode(" + this.Id + ")' alt='selectable'>Select</a></span>" : "");
 
         var rootNodeTag = $("<li />");
         rootNodeTag.html(nodeText);
@@ -44,6 +44,10 @@ function collapseNode(itemNodeId) {
     if (currentItem.Children != null && currentItem.Children.length > 0) {
         currentItem.Children = null;
     }
+}
+
+function selectNode(itemNodeId) {
+    return findItemInDataSource(treeViewDataSource, itemNodeId);
 }
 
 function findItemInDataSource(dataSource, itemId) {
