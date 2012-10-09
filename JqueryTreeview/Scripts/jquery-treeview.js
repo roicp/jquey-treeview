@@ -1,6 +1,4 @@
 ﻿(function ($) {
-    // this.element -- a jQuery object of the element the widget was invoked on.
-    // this.options -- the merged options hash.
     $.widget("roicp.treeview", {
         self: null,
         _treeViewDataSource: null,
@@ -154,7 +152,8 @@
         },
 
         _selectNode: function (itemNodeId) {
-            return self._findItemInDataSource(self._treeViewDataSource, itemNodeId);
+            var item = self._findItemInDataSource(self._treeViewDataSource, itemNodeId);
+            alert(item.Description);
         },
 
         _setOption: function (key, value) {
