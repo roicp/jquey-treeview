@@ -113,16 +113,8 @@
         _expandNode: function (itemNodeId) {
             var currentItem = self._findItemInDataSource(self._treeViewDataSource, itemNodeId);
             var currentNode = self.element.find("li[id='" + currentItem.Id + "']").first();
-            
 
-            currentNode.children(".roicp-treeview-span-expand").unbind('click');
-
-            currentNode.children(".roicp-treeview-span-expand").removeClass("roicp-treeview-span-expand").addClass("roicp-treeview-span-collapse").html("Collapse");
-
-            currentNode.children(".roicp-treeview-span-collapse").bind("click", function () {
-                self._collapseNode($(this).attr("id"));
-            });
-
+            self._switchCssClass(currentNode.children(".roicp-treeview-span-expand"));
 
             self._getChildrenNodes(currentItem);
         },
@@ -131,17 +123,29 @@
             var currentItem = self._findItemInDataSource(self._treeViewDataSource, itemNodeId);
             var currentNode = self.element.find("li[id='" + currentItem.Id + "']").first();
 
-            currentNode.children(".roicp-treeview-span-collapse").unbind('click');
+            self._switchCssClass(currentNode.children(".roicp-treeview-span-collapse"));
 
-            currentNode.children(".roicp-treeview-span-collapse").removeClass("roicp-treeview-span-collapse").addClass("roicp-treeview-span-expand").html("Expand");
             currentNode.children("ul").remove();
 
             currentItem.Children = null;
-            
+        },
 
-            currentNode.children(".roicp-treeview-span-expand").bind("click", function () {
-                self._expandNode($(this).attr("id"));
-            });
+        _switchCssClass: function (workNode) {
+            workNode.unbind('click');
+
+            if (workNode.hasClass("roicp-treeview-span-collapse")) {
+                workNode.removeClass("roicp-treeview-span-collapse").addClass("roicp-treeview-span-expand").html("Expand");
+
+                workNode.bind("click", function () {
+                    self._expandNode($(this).attr("id"));
+                });
+            } else {
+                workNode.removeClass("roicp-treeview-span-expand").addClass("roicp-treeview-span-collapse").html("Collapse");
+
+                workNode.bind("click", function () {
+                    self._collapseNode($(this).attr("id"));
+                });
+            }
         },
 
         _findItemInDataSource: function (dataSource, itemId) {
