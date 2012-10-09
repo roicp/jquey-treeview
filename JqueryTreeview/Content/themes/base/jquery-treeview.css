@@ -1,16 +1,13 @@
 ﻿.roicp-treeview-base-tag {
 }
 
-.roicp-treeview-root-node {
-}
-
-.roicp-treeview-child-node {
-}
-
 .roicp-treeview-child-base-tag {
 }
 
-.roicp-treeview-expanded {
+.roicp-treeview-expandable-node {
+}
+
+.roicp-treeview-collapsible-node {
 }
 
 .roicp-treeview-span-expand {
