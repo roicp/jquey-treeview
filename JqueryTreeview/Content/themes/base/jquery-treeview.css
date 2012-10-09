@@ -1,27 +1,27 @@
-﻿.base_tag {
+﻿.roicp-treeview-base-tag {
 }
 
-.root_node {
+.roicp-treeview-root-node {
 }
 
-.child_node {
+.roicp-treeview-child-node {
 }
 
-.child_base_tag {
+.roicp-treeview-child-base-tag {
 }
 
-.expanded {
+.roicp-treeview-expanded {
 }
 
-.span_expand {
+.roicp-treeview-span-expand {
     color: blueviolet;
 }
 
-.span_collapse {
+.roicp-treeview-span-collapse {
     color: crimson;
 }
 
-.span_selectable {
+.roicp-treeview-span-selectable {
 }
 
 

@@ -1,7 +1,7 @@
 ﻿(function ($) {
     // this.element -- a jQuery object of the element the widget was invoked on.
     // this.options -- the merged options hash.
-    $.widget("roicp_js.treeview", {
+    $.widget("roicp.treeview", {
         self: null,
         _treeViewDataSource: null,
 
@@ -17,7 +17,7 @@
 
         _initializeTreeViewBaseTag: function () {
             var baseTag = $("<ul />");
-            baseTag.addClass("base_tag");
+            baseTag.addClass("roicp-treeview-base-tag");
             baseTag.appendTo(self.element);
         },
 
@@ -39,23 +39,23 @@
         },
 
         _initializeTreeViewRootNodes: function () {
-            var baseElement = self.element.children(".base_tag").first();
+            var baseElement = self.element.children(".roicp-treeview-base-tag").first();
 
             $.each(self._treeViewDataSource, function () {
                 var nodeText = this.Name;
-                nodeText += ((this.HasChild) ? "&nbsp;<span id='" + this.Id + "' class='span_expand'>Expand</span>" : "");
-                nodeText += ((this.Selectable) ? "&nbsp;<span id='" + this.Id + "' class='span_selectable'>Select</span>" : "");
+                nodeText += ((this.HasChild) ? "&nbsp;<span id='" + this.Id + "' class='roicp-treeview-span-expand'>Expand</span>" : "");
+                nodeText += ((this.Selectable) ? "&nbsp;<span id='" + this.Id + "' class='roicp-treeview-span-selectable'>Select</span>" : "");
 
                 var rootNodeTag = $("<li />");
                 rootNodeTag.html(nodeText);
-                rootNodeTag.addClass("root_node").attr("id", this.Id).appendTo(baseElement);
+                rootNodeTag.addClass("roicp-treeview-root-node").attr("id", this.Id).appendTo(baseElement);
             });
 
-            baseElement.find(".span_expand").bind("click", function () {
+            baseElement.find(".roicp-treeview-span-expand").bind("click", function () {
                 self._expandNode($(this).attr("id"));
             });
 
-            baseElement.find(".span_selectable").bind("click", function () {
+            baseElement.find(".roicp-treeview-span-selectable").bind("click", function () {
                 self._selectNode($(this).attr("id"));
             });
         },
@@ -85,26 +85,26 @@
 
 
                 var childNodeTag = $("<ul />");
-                childNodeTag.addClass("child_base_tag");
+                childNodeTag.addClass("roicp-treeview-child-base-tag");
 
                 $.each(currentNode.Children, function () {
                     var nodeText = this.Name;
-                    nodeText += ((this.HasChild) ? "&nbsp;<span id='" + this.Id + "' class='span_expand'>Expand</span>" : "");
-                    nodeText += ((this.Selectable) ? "&nbsp;<span id='" + this.Id + "' class='span_selectable'>Select</span>" : "");
+                    nodeText += ((this.HasChild) ? "&nbsp;<span id='" + this.Id + "' class='roicp-treeview-span-expand'>Expand</span>" : "");
+                    nodeText += ((this.Selectable) ? "&nbsp;<span id='" + this.Id + "' class='roicp-treeview-span-selectable'>Select</span>" : "");
 
                     var childNodeInnerTag = $("<li />");
                     childNodeInnerTag.html(nodeText);
-                    childNodeInnerTag.addClass("child_node").attr("id", this.Id).appendTo(childNodeTag);
+                    childNodeInnerTag.addClass("roicp-treeview-child-node").attr("id", this.Id).appendTo(childNodeTag);
                 });
 
                 childNodeTag.appendTo(baseElement);
 
 
-                baseElement.find(".span_expand").bind("click", function () {
+                baseElement.find(".roicp-treeview-span-expand").bind("click", function () {
                     self._expandNode($(this).attr("id"));
                 });
 
-                baseElement.find(".span_selectable").bind("click", function () {
+                baseElement.find(".roicp-treeview-span-selectable").bind("click", function () {
                     self._selectNode($(this).attr("id"));
                 });
             }
@@ -115,11 +115,11 @@
             var currentNode = self.element.find("li[id='" + currentItem.Id + "']").first();
             
 
-            currentNode.children(".span_expand").unbind('click');
+            currentNode.children(".roicp-treeview-span-expand").unbind('click');
 
-            currentNode.children(".span_expand").removeClass("span_expand").addClass("span_collapse").html("Collapse");
+            currentNode.children(".roicp-treeview-span-expand").removeClass("roicp-treeview-span-expand").addClass("roicp-treeview-span-collapse").html("Collapse");
 
-            currentNode.children(".span_collapse").bind("click", function () {
+            currentNode.children(".roicp-treeview-span-collapse").bind("click", function () {
                 self._collapseNode($(this).attr("id"));
             });
 
@@ -131,15 +131,15 @@
             var currentItem = self._findItemInDataSource(self._treeViewDataSource, itemNodeId);
             var currentNode = self.element.find("li[id='" + currentItem.Id + "']").first();
 
-            currentNode.children(".span_collapse").unbind('click');
+            currentNode.children(".roicp-treeview-span-collapse").unbind('click');
 
-            currentNode.children(".span_collapse").removeClass("span_collapse").addClass("span_expand").html("Expand");
+            currentNode.children(".roicp-treeview-span-collapse").removeClass("roicp-treeview-span-collapse").addClass("roicp-treeview-span-expand").html("Expand");
             currentNode.children("ul").remove();
 
             currentItem.Children = null;
             
 
-            currentNode.children(".span_expand").bind("click", function () {
+            currentNode.children(".roicp-treeview-span-expand").bind("click", function () {
                 self._expandNode($(this).attr("id"));
             });
         },
@@ -187,134 +187,3 @@
         }
     });
 })(jQuery);
-
-
-//var treeViewDataSource;
-//var treeViewContainer;
-
-//$(document).ready(function () {
-//    treeViewContainer = $(".build_tree_here");
-//    initializeTreeViewBaseTag();
-//    initializeTreeViewDataSourceWithRoots();
-//});
-
-//function initializeTreeViewBaseTag() {
-//    var baseTag = $("<ul />");
-//    baseTag.addClass("base_tag");
-//    baseTag.appendTo(treeViewContainer);
-//}
-
-//function initializeTreeViewRootNodes() {
-//    $.each(treeViewDataSource, function () {
-//        var nodeText = this.Name;
-//        nodeText += ((this.HasChild) ? "&nbsp;<span class='span_expand'><a href='javascript:expandNode(" + this.Id + ")' alt='expandable'>Expand</a></span>" : "");
-//        nodeText += ((this.Selectable) ? "&nbsp;<span class='span_selectable'><a href='javascript:selectNode(" + this.Id + ")' alt='selectable'>Select</a></span>" : "");
-
-//        var rootNodeTag = $("<li />");
-//        rootNodeTag.html(nodeText);
-//        rootNodeTag.addClass("root_node").attr("id", this.Id).appendTo(treeViewContainer.children(".base_tag").first());
-//    });
-//}
-
-//function expandNode(itemNodeId) {
-//    var currentItem = findItemInDataSource(treeViewDataSource, itemNodeId);
-
-//    var currentNode = treeViewContainer.find("li[id='" + currentItem.Id + "']").first();
-//    currentNode.children(".span_expand").html("<a href='javascript:collapseNode(" + currentItem.Id + ")' alt='collapsible'>Collapse</a>");
-
-//    getChildrenNodes(currentItem);
-//}
-
-//function collapseNode(itemNodeId) {
-//    var currentItem = findItemInDataSource(treeViewDataSource, itemNodeId);
-
-//    var currentNode = treeViewContainer.find("li[id='" + currentItem.Id + "']").first();
-//    currentNode.children(".span_expand").html("<a href='javascript:expandNode(" + currentItem.Id + ")' alt='expandable'>Expand</a>");
-//    currentNode.children("ul").remove();
-
-//    if (currentItem.Children != null && currentItem.Children.length > 0) {
-//        currentItem.Children = null;
-//    }
-//}
-
-//function selectNode(itemNodeId) {
-//    return findItemInDataSource(treeViewDataSource, itemNodeId);
-//}
-
-//function findItemInDataSource(dataSource, itemId) {
-//    var currentNode = null;
-
-//    for (var i = 0; i < dataSource.length; i++) {
-//        var item = dataSource[i];
-
-//        if (item.Id == itemId) {
-//            currentNode = item;
-//            break;
-//        }
-
-//        if (item.Children != null && item.Children.length > 0) {
-//            currentNode = findItemInDataSource(item.Children, itemId);
-
-//            if (currentNode != null) {
-//                break;
-//            }
-//        }
-//    }
-
-//    return currentNode;
-//}
-
-//function expandNodeGetNodeChildrenCompleted(currentNode) {
-//    if (currentNode.Children != null && currentNode.Children.length > 0) {
-//        var childNodeTag = $("<ul />");
-//        childNodeTag.addClass("child_base_tag");
-
-//        $.each(currentNode.Children, function () {
-//            var nodeText = this.Name;
-//            nodeText += ((this.HasChild) ? "&nbsp;<span class='span_expand'><a href='javascript:expandNode(" + this.Id + ")' alt='expandable'>Expand</a></span>" : "");
-//            nodeText += ((this.Selectable) ? "&nbsp;<span class='span_selectable'><a href='javascript:selectNode(" + this.Id + ")' alt='select'>Select</a></span>" : "");
-
-//            var childNodeInnerTag = $("<li />");
-//            childNodeInnerTag.html(nodeText);
-//            childNodeInnerTag.addClass("child_node").attr("id", this.Id).appendTo(childNodeTag);
-//        });
-
-//        childNodeTag.appendTo(treeViewContainer.find("li[id='" + currentNode.Id + "']").first());
-//    }
-//}
-
-//function initializeTreeViewDataSourceWithRoots() {
-//    $.ajax({
-//        type: "POST",
-//        contentType: "application/json; charset=utf-8",
-//        url: "/Home/GetCategories",
-//        data: "{ 'upperId':'0' }",
-//        dataType: "json",
-//        success: function (data) {
-//            treeViewDataSource = data;
-//            initializeTreeViewRootNodes();
-//        },
-//        error: function () {
-//            alert("an error ocurred");
-//        }
-//    });
-//}
-
-//function getChildrenNodes(currentNode) {
-//    currentNode.Children = null;
-
-//    $.ajax({
-//        type: "POST",
-//        contentType: "application/json; charset=utf-8",
-//        url: "/Home/GetCategories",
-//        data: "{ 'upperId':'" + currentNode.Id + "' }",
-//        dataType: "json",
-//        success: function (data) {
-//            currentNode.Children = data;
-//            expandNodeGetNodeChildrenCompleted(currentNode);
-//        },
-//        error: function () {
-//            alert("an error ocurred");
-//        }
-//    });
-//}
