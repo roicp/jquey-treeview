@@ -5,9 +5,15 @@
 }
 
 .roicp-treeview-expandable-node {
+    color: green;
 }
 
 .roicp-treeview-collapsible-node {
+    color: fuchsia;
+}
+
+.roicp-treeview-nochild-node {
+    color: gold;
 }
 
 .roicp-treeview-span-expand {

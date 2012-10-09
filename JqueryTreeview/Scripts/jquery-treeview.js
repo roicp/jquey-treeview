@@ -21,7 +21,7 @@
             baseTag.appendTo(self.element);
         },
 
-        
+
         _getChildrenNodes: function (itemId, currentItemDataSource, funcCallback) {
             $.ajax({
                 type: "POST",
@@ -37,7 +37,7 @@
                 }
             });
         },
-        
+
 
         _getRootNodesCompleted: function (currentItemDataSource, data) {
             self._treeViewDataSource = data;
@@ -91,7 +91,9 @@
                 nodeInnerTag.html(nodeText).attr("id", this.Id);
 
                 if (this.HasChild) {
-                    nodeInnerTag.addClass("roicp-treeview-expandable-node");
+                    nodeInnerTag.removeClass("roicp-treeview-nochild-node").addClass("roicp-treeview-expandable-node");
+                } else {
+                    nodeInnerTag.removeClass("roicp-treeview-expandable-node").addClass("roicp-treeview-nochild-node");
                 }
 
                 nodeInnerTag.appendTo(baseElement);
@@ -110,17 +112,21 @@
             workNode.unbind('click');
 
             if (workNode.hasClass("roicp-treeview-span-collapse")) {
+                workNode.parent().removeClass("roicp-treeview-collapsible-node").addClass("roicp-treeview-expandable-node");
                 workNode.removeClass("roicp-treeview-span-collapse").addClass("roicp-treeview-span-expand").html("Expand");
 
                 workNode.bind("click", function () {
                     self._expandNode($(this).attr("id"));
                 });
             } else {
-                workNode.removeClass("roicp-treeview-span-expand").addClass("roicp-treeview-span-collapse").html("Collapse");
+                if (workNode.hasClass("roicp-treeview-span-expand")) {
+                    workNode.parent().removeClass("roicp-treeview-expandable-node").addClass("roicp-treeview-collapsible-node");
+                    workNode.removeClass("roicp-treeview-span-expand").addClass("roicp-treeview-span-collapse").html("Collapse");
 
-                workNode.bind("click", function () {
-                    self._collapseNode($(this).attr("id"));
-                });
+                    workNode.bind("click", function() {
+                        self._collapseNode($(this).attr("id"));
+                    });
+                }
             }
         },
 
