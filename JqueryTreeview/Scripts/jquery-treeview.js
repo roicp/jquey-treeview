@@ -39,6 +39,8 @@
         },
 
         _initializeTreeViewRootNodes: function () {
+            var baseElement = self.element.children(".base_tag").first();
+
             $.each(self._treeViewDataSource, function () {
                 var nodeText = this.Name;
                 nodeText += ((this.HasChild) ? "&nbsp;<span id='" + this.Id + "' class='span_expand'>Expand</span>" : "");
@@ -46,14 +48,14 @@
 
                 var rootNodeTag = $("<li />");
                 rootNodeTag.html(nodeText);
-                rootNodeTag.addClass("root_node").attr("id", this.Id).appendTo(self.element.children(".base_tag").first());
+                rootNodeTag.addClass("root_node").attr("id", this.Id).appendTo(baseElement);
             });
 
-            self.element.find(".span_expand").bind("click", function () {
+            baseElement.find(".span_expand").bind("click", function () {
                 self._expandNode($(this).attr("id"));
             });
 
-            self.element.find(".span_selectable").bind("click", function () {
+            baseElement.find(".span_selectable").bind("click", function () {
                 self._selectNode($(this).attr("id"));
             });
         },
@@ -79,6 +81,9 @@
 
         _expandNodeGetNodeChildrenCompleted: function (currentNode) {
             if (currentNode.Children != null && currentNode.Children.length > 0) {
+                var baseElement = self.element.find("li[id='" + currentNode.Id + "']").first();
+
+
                 var childNodeTag = $("<ul />");
                 childNodeTag.addClass("child_base_tag");
 
@@ -92,14 +97,14 @@
                     childNodeInnerTag.addClass("child_node").attr("id", this.Id).appendTo(childNodeTag);
                 });
 
-                childNodeTag.appendTo(self.element.find("li[id='" + currentNode.Id + "']").first());
+                childNodeTag.appendTo(baseElement);
 
 
-                self.element.find(".span_expand").bind("click", function () {
+                baseElement.find(".span_expand").bind("click", function () {
                     self._expandNode($(this).attr("id"));
                 });
 
-                self.element.find(".span_selectable").bind("click", function () {
+                baseElement.find(".span_selectable").bind("click", function () {
                     self._selectNode($(this).attr("id"));
                 });
             }
@@ -107,14 +112,14 @@
 
         _expandNode: function (itemNodeId) {
             var currentItem = self._findItemInDataSource(self._treeViewDataSource, itemNodeId);
-
             var currentNode = self.element.find("li[id='" + currentItem.Id + "']").first();
             
-            self.element.find(".span_expand").unbind('click');
+
+            currentNode.children(".span_expand").unbind('click');
 
             currentNode.children(".span_expand").removeClass("span_expand").addClass("span_collapse").html("Collapse");
 
-            self.element.find(".span_collapse").bind("click", function () {
+            currentNode.children(".span_collapse").bind("click", function () {
                 self._collapseNode($(this).attr("id"));
             });
 
@@ -123,20 +128,18 @@
         },
 
         _collapseNode: function (itemNodeId) {
-            var currentItem = self._findItemInDataSource(_treeViewDataSource, itemNodeId);
-
+            var currentItem = self._findItemInDataSource(self._treeViewDataSource, itemNodeId);
             var currentNode = self.element.find("li[id='" + currentItem.Id + "']").first();
 
-            self.element.find(".span_collapse").unbind('click');
+            currentNode.children(".span_collapse").unbind('click');
 
-            currentNode.children(".span_collapse").removeClass("span_collapse").addClass(".pan_expand").html("Expand");
+            currentNode.children(".span_collapse").removeClass("span_collapse").addClass("span_expand").html("Expand");
             currentNode.children("ul").remove();
 
-            if (currentItem.Children != null && currentItem.Children.length > 0) {
-                currentItem.Children = null;
-            }
+            currentItem.Children = null;
+            
 
-            self.element.find(".span_expand").bind("click", function () {
+            currentNode.children(".span_expand").bind("click", function () {
                 self._expandNode($(this).attr("id"));
             });
         },
