@@ -1,19 +1,33 @@
 ﻿.roicp-treeview-base-tag {
+    list-style: none;
 }
 
 .roicp-treeview-child-base-tag {
+    list-style: none;
 }
 
 .roicp-treeview-expandable-node {
     color: green;
+    margin: 0;
+    padding: 3px 0pt 3px 16px;
+    background: url(images/treeview-line.gif) 0 0 no-repeat;
+    background-position: 0 -176px;
 }
 
 .roicp-treeview-collapsible-node {
     color: fuchsia;
+    margin: 0;
+    padding: 3px 0pt 3px 16px;
+    background: url(images/treeview-line.gif) 0 0 no-repeat;
+    background-position: 0 -176px;
 }
 
 .roicp-treeview-nochild-node {
     color: gold;
+    margin: 0;
+    padding: 3px 0pt 3px 16px;
+    background: url(images/treeview-line.gif) 0 0 no-repeat;
+    background-position: 0 -1766px;
 }
 
 .roicp-treeview-span-expand {
@@ -27,4 +41,25 @@
 .roicp-treeview-span-selectable {
 }
 
+.roicp-treeview-span-node-text {
+    color: black;
+}
 
+.roicp-treeview-span-node-hit-expandable {
+    background-image: url(images/treeview-default.gif);
+    height: 16px;
+    width: 16px;
+    margin-left: -16px;
+    float: left;
+    cursor: pointer;
+    background-position: -80px -3px;
+}
+
+.roicp-treeview-span-node-hit-collapsible {
+    background-image: url(images/treeview-default.gif);
+    height: 16px;
+    width: 16px;
+    margin-left: -16px;
+    float: left;
+    cursor: pointer;
+}

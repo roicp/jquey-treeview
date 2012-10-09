@@ -81,7 +81,9 @@
 
         _createNode: function (dataSource, baseElement) {
             $.each(dataSource, function () {
-                var nodeText = this.Name;
+                var nodeText = "";
+                nodeText += "<span class='roicp-treeview-span-node-hit-expandable'></span>";
+                nodeText += "&nbsp;<span class='roicp-treeview-span-node-text'>" + this.Name + "</span>";
                 nodeText += ((this.HasChild) ? "&nbsp;<span id='" + this.Id + "' class='roicp-treeview-span-expand'>Expand</span>" : "");
                 nodeText += ((this.Selectable) ? "&nbsp;<span id='" + this.Id + "' class='roicp-treeview-span-selectable'>Select</span>" : "");
 
