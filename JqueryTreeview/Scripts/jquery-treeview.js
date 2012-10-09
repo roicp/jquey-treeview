@@ -168,7 +168,7 @@
         },
 
         _selectNode: function (itemNodeId) {
-            return self._findItemInDataSource(_treeViewDataSource, itemNodeId);
+            return self._findItemInDataSource(self._treeViewDataSource, itemNodeId);
         },
 
         _setOption: function (key, value) {
