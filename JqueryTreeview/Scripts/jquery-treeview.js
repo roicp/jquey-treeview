@@ -81,23 +81,30 @@
         _createNode: function (dataSource, baseElement) {
             for (var i = 0; i < dataSource.length; i++) {
                 var item = dataSource[i];
-                var hitPosition;
+                var hitPosition = "";
 
-                switch (i) {
-                    case 0:
-                        hitPosition = "hit-first";
-                        break;
-                    case dataSource.length - 1:
-                        hitPosition = "hit-last";
-                        break;
-                    default:
-                        hitPosition = "";
-                        break;
+                if (dataSource.length == 1) {
+                    hitPosition = "hit-alone";
+                } else {
+                    switch (i) {
+                        case 0:
+                            hitPosition = "hit-first";
+                            break;
+                        case dataSource.length - 1:
+                            hitPosition = "hit-last";
+                            break;
+                        default:
+                            hitPosition = "";
+                            break;
+                    }
                 }
 
 
+
+
+
                 var nodeText = "";
-                nodeText += ((item.HasChild) ? "&nbsp;<span id='" + item.Id + "' class='span-expand hit-area " + hitPosition + "'></span>" : "");
+                nodeText += ((item.HasChild) ? "&nbsp;<span id='" + item.Id + "' class='span-expand hit-area " + hitPosition + "'></span>" : "&nbsp;<span id='" + item.Id + "' class='no-hit-area'></span>");
                 nodeText += "&nbsp;<span class='span-node-text'>" + item.Name + "</span>";
                 nodeText += ((item.Selectable) ? "&nbsp;<span id='" + item.Id + "' class='span-selectable'>Select</span>" : "");
 
