@@ -49,6 +49,10 @@
                 background-position: -1px -109px;
             }
 
+            .treeview .hit-area.span-expand.hit-single {
+                background-position: -1px -73px;
+            }
+
 
         .treeview .hit-area.span-collapse {
             background-position: -1px -55px;
@@ -60,6 +64,10 @@
 
             .treeview .hit-area.span-collapse.hit-last {
                 background-position: -1px -127px;
+            }
+
+            .treeview .hit-area.span-collapse.hit-single {
+                background-position: -1px -91px;
             }
 
 

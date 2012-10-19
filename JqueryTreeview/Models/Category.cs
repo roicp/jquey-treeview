@@ -16,20 +16,57 @@ namespace JqueryTreeview.Models
         {
             get
             {
-                var listOfCategories = Category.GetAllCategoriesAsFlatList();
+                var listOfCategories = Category.LongGetAllCategoriesAsFlatList();
                 return listOfCategories.Any(c => this.Id.Equals(c.UpperCategoryId));
             }
         }
 
 
-        public static IEnumerable<Category> GetCategories(int upperId = 0)
+        public static IEnumerable<Category> ShortGetCategories(int upperId = 0)
         {
-            var listOfCategories = Category.GetAllCategoriesAsFlatList();
+            var listOfCategories = Category.ShortGetAllCategoriesAsFlatList();
 
             return listOfCategories.Where(c => upperId.Equals(c.UpperCategoryId));
         }
 
-        private static IEnumerable<Category> GetAllCategoriesAsFlatList()
+        private static IEnumerable<Category> ShortGetAllCategoriesAsFlatList()
+        {
+            var listOfCategories = new List<Category>
+                {
+                    new Category
+                        {
+                            Id = 112131,
+                            Name = "Best Books of the Year So Far",
+                            Description = "Top 20 Editors' Picks, Mystery, Thriller & Suspense, Teens and more",
+                            UpperCategoryId = 1121
+                        },
+                    new Category
+                        {
+                            Id = 1121,
+                            Name = "Books",
+                            Description = "Paper books",
+                            UpperCategoryId = 11
+                        },
+                    new Category
+                        {
+                            Id = 11,
+                            Name = "Book Store",
+                            Description = "All the best salers are here"
+                        },
+                };
+
+            return listOfCategories;
+        }
+
+
+        public static IEnumerable<Category> LongGetCategories(int upperId = 0)
+        {
+            var listOfCategories = Category.LongGetAllCategoriesAsFlatList();
+
+            return listOfCategories.Where(c => upperId.Equals(c.UpperCategoryId));
+        }
+
+        private static IEnumerable<Category> LongGetAllCategoriesAsFlatList()
         {
             var listOfCategories = new List<Category>
                 {
@@ -171,7 +208,6 @@ namespace JqueryTreeview.Models
                             Description = "Best Sellers, Hot New Releases and Most Gifted",
                             UpperCategoryId = 1222
                         },
-                
                     new Category
                         {
                             Id = 11213341,

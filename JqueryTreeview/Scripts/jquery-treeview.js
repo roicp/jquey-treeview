@@ -24,7 +24,7 @@
             $.ajax({
                 type: "POST",
                 contentType: "application/json; charset=utf-8",
-                url: "/Home/GetCategories",
+                url: "/Home/LongGetCategories",
                 data: "{ 'upperId':'" + itemId + "' }",
                 dataType: "json",
                 success: function (data) {
@@ -81,10 +81,10 @@
         _createNode: function (dataSource, baseElement) {
             for (var i = 0; i < dataSource.length; i++) {
                 var item = dataSource[i];
-                var hitPosition = "";
+                var hitPosition;
 
                 if (dataSource.length == 1) {
-                    hitPosition = "hit-alone";
+                    hitPosition = "hit-single";
                 } else {
                     switch (i) {
                         case 0:

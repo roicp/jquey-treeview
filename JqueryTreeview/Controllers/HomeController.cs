@@ -11,9 +11,16 @@ namespace JqueryTreeview.Controllers
             return View();
         }
 
-        public JsonResult GetCategories(int upperId)
+        public JsonResult ShortGetCategories(int upperId)
         {
-            var listOfCategories = Category.GetCategories(upperId);
+            var listOfCategories = Category.ShortGetCategories(upperId);
+
+            return Json(listOfCategories);
+        }
+
+        public JsonResult LongGetCategories(int upperId)
+        {
+            var listOfCategories = Category.LongGetCategories(upperId);
 
             return Json(listOfCategories);
         }
