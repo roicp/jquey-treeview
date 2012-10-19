@@ -38,28 +38,28 @@
 
 
         .treeview .hit-area.span-expand {
-            background-position: -48px -46px;
+            background-position: -1px -37px;
         }
 
             .treeview .hit-area.span-expand.hit-first {
-                background-position: -80px -2px;
+                background-position: -1px -1px;
             }
 
             .treeview .hit-area.span-expand.hit-last {
-                background-position: -32px -68px;
+                background-position: -1px -109px;
             }
 
 
         .treeview .hit-area.span-collapse {
-            background-position: -16px -90px;
+            background-position: -1px -55px;
         }
 
             .treeview .hit-area.span-collapse.hit-first {
-                background-position: -64px -24px;
+                background-position: -1px -19px;
             }
 
             .treeview .hit-area.span-collapse.hit-last {
-                background-position: 0px -112px;
+                background-position: -1px -127px;
             }
 
 
