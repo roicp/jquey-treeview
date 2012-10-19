@@ -50,7 +50,6 @@
                 var baseElement = self.element.find("li[id='" + currentItemDataSource.Id + "']").first();
 
                 var childNodeTag = $("<ul />");
-                childNodeTag.addClass("base-node");
 
                 self._createNode(currentItemDataSource.Children, childNodeTag);
 
@@ -80,25 +79,25 @@
         },
 
         _createNode: function (dataSource, baseElement) {
-            $.each(dataSource, function () {
+            for (var i = 0; i < dataSource.length; i++) {
+                var item = dataSource[i];
+
                 var nodeText = "";
-                nodeText += "<span id='" + this.Id + "' class='span-expand'>Expand</span>";
-                nodeText += "&nbsp;<span class='span-node-text'>" + this.Name + "</span>";
-                nodeText += ((this.HasChild) ? "&nbsp;<span id='" + this.Id + "' class='span-expand'>Expand</span>" : "");
-                nodeText += ((this.Selectable) ? "&nbsp;<span id='" + this.Id + "' class='span-selectable'>Select</span>" : "");
+                nodeText += ((item.HasChild) ? "&nbsp;<span id='" + item.Id + "' class='span-expand hitarea'></span>" : "");
+                nodeText += "&nbsp;<span class='span-node-text'>" + item.Name + "</span>";
+                nodeText += ((item.Selectable) ? "&nbsp;<span id='" + item.Id + "' class='span-selectable'>Select</span>" : "");
 
                 var nodeInnerTag = $("<li />");
-                nodeInnerTag.html(nodeText).attr("id", this.Id);
+                nodeInnerTag.html(nodeText).attr("id", item.Id);
 
-                if (this.HasChild) {
+                if (item.HasChild) {
                     nodeInnerTag.removeClass("without-child-node").addClass("with-child-node");
                 } else {
                     nodeInnerTag.removeClass("with-child-node").addClass("without-child-node");
                 }
 
                 nodeInnerTag.appendTo(baseElement);
-            });
-            
+            }
 
             baseElement.find(".span-expand").bind("click", function () {
                 self._expandNode($(this).attr("id"));
@@ -114,7 +113,7 @@
 
             if (workNode.hasClass("span-collapse")) {
                 workNode.removeClass("span-collapse").addClass("span-expand").html("Expand");
-
+                
                 workNode.bind("click", function () {
                     self._expandNode($(this).attr("id"));
                 });

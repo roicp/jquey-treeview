@@ -1,9 +1,44 @@
-﻿.treeview {
+﻿.treeview, .treeview ul
+{
+    padding: 0;
+    margin: 0;
     list-style: none;
 }
 
-.treeview .base-node {
-    list-style: none;
+.treeview ul
+{
+    margin-top: 4px;
+}
+
+.treeview li
+{
+    margin: 0;
+    padding: 3px 0pt 3px 16px;
+}
+
+.treeview li
+{
+    background: url(images/treeview-line.gif) 0 0 no-repeat;
+}
+
+.treeview .hitarea
+{
+    background: url(images/treeview-default.gif) -64px -25px no-repeat;
+    height: 16px;
+    width: 16px;
+    margin-left: -16px;
+    float: left;
+    cursor: pointer;
+}
+
+.treeview li.span-expand, .treeview li.span-collapse
+{
+    background-position: 0 -176px;
+}
+
+.treeview .span-expand .hitarea
+{
+    background-position: -80px -3px;
 }
 
 .treeview .with-child-node {
@@ -29,12 +64,3 @@
     color: black;
 }
 
-.treeview .hitarea
-{
-    background: url(images/treeview-default.gif) -64px -25px no-repeat;
-    height: 16px;
-    width: 16px;
-    margin-left: -16px;
-    float: left;
-    cursor: pointer;
-}
