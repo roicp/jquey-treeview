@@ -7,6 +7,7 @@
 
 .treeview ul
 {
+    background-color: white;
     margin-top: 4px;
 }
 
@@ -18,10 +19,10 @@
 
 .treeview li
 {
-    background: url(images/treeview-line.gif) 0 0 no-repeat;
+    background: url(images/treeview-line.gif) 0px 0px no-repeat;
 }
 
-.treeview .hitarea
+.treeview .hit-area
 {
     background: url(images/treeview-default.gif) -64px -25px no-repeat;
     height: 16px;
@@ -31,36 +32,60 @@
     cursor: pointer;
 }
 
-.treeview li.span-expand, .treeview li.span-collapse
-{
-    background-position: 0 -176px;
-}
-
-.treeview .span-expand .hitarea
+.treeview .span-expand.hit-area
 {
     background-position: -80px -3px;
 }
 
+
+.treeview li.hit-last
+{
+    background-position: 0px -1766px;
+}
+
+.treeview li.span-collapse.hit-last
+{
+    background-position: 0px -111px;
+}
+
+.treeview li.span-expand.hit-last
+{
+    background-position: -32px -67px;
+}
+
+.treeview .hit-area.hit-last
+{
+    background-position: 0px 0px;
+}
+
+
+
+
+
+
+
+
+
 .treeview .with-child-node {
-    color: green;
 }
 
 .treeview .without-child-node {
-    color: gold;
 }
 
 .treeview .span-expand {
-    color: blueviolet;
 }
 
 .treeview .span-collapse {
-    color: crimson;
 }
 
 .treeview .span-selectable {
 }
 
 .treeview .span-node-text {
-    color: black;
 }
 
+.treeviw .hit-first {
+}
+
+.treeviw .hit-last {
+}

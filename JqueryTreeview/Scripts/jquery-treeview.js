@@ -81,9 +81,23 @@
         _createNode: function (dataSource, baseElement) {
             for (var i = 0; i < dataSource.length; i++) {
                 var item = dataSource[i];
+                var hitPosition;
+
+                switch (i) {
+                    case 0:
+                        hitPosition = "hit-first";
+                        break;
+                    case dataSource.length - 1:
+                        hitPosition = "hit-last";
+                        break;
+                    default:
+                        hitPosition = "";
+                        break;
+                }
+
 
                 var nodeText = "";
-                nodeText += ((item.HasChild) ? "&nbsp;<span id='" + item.Id + "' class='span-expand hitarea'></span>" : "");
+                nodeText += ((item.HasChild) ? "&nbsp;<span id='" + item.Id + "' class='span-expand hit-area " + hitPosition + "'></span>" : "");
                 nodeText += "&nbsp;<span class='span-node-text'>" + item.Name + "</span>";
                 nodeText += ((item.Selectable) ? "&nbsp;<span id='" + item.Id + "' class='span-selectable'>Select</span>" : "");
 
@@ -112,16 +126,16 @@
             workNode.unbind('click');
 
             if (workNode.hasClass("span-collapse")) {
-                workNode.removeClass("span-collapse").addClass("span-expand").html("Expand");
-                
+                workNode.removeClass("span-collapse").addClass("span-expand");
+
                 workNode.bind("click", function () {
                     self._expandNode($(this).attr("id"));
                 });
             } else {
                 if (workNode.hasClass("span-expand")) {
-                    workNode.removeClass("span-expand").addClass("span-collapse").html("Collapse");
+                    workNode.removeClass("span-expand").addClass("span-collapse");
 
-                    workNode.bind("click", function() {
+                    workNode.bind("click", function () {
                         self._collapseNode($(this).attr("id"));
                     });
                 }
