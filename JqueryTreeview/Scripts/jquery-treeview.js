@@ -126,9 +126,11 @@
                 nodeSpanHit.addClass(hitPosition);
                 nodeSpanHit.appendTo(nodeInnerTag);
 
-                self._renderItem(nodeInnerTag, item);
+                var spanText = $("<span />");
+                spanText.data("roicp-treeview-item", item);
+                self._renderItem(spanText, item);
+                spanText.appendTo(nodeInnerTag);
 
-                nodeInnerTag.data("treeview-item", item);
                 nodeInnerTag.appendTo(baseElement);
             }
 
@@ -141,21 +143,19 @@
             });
         },
 
-        _renderItem: function (nodeInnerTag, item) {
+        _renderItem: function (spanText, item) {
             var spanName = $("<span />");
             spanName.addClass("span-node-text");
             spanName.html(item.Name);
-            spanName.appendTo(nodeInnerTag);
+            spanName.appendTo(spanText);
 
             if (item.Selectable) {
                 var spanSelect = $("<span />");
                 spanSelect.attr("id", item.Id);
                 spanSelect.addClass("span-selectable");
                 spanSelect.html("Select");
-                spanSelect.appendTo(nodeInnerTag);
+                spanSelect.appendTo(spanText);
             }
-
-            return nodeInnerTag;
         },
 
         _switchCssClass: function (workNode) {
@@ -201,11 +201,6 @@
             return currentNode;
         },
 
-        _selectNode: function (itemNodeId) {
-            var item = self._findItemInDataSource(self._treeViewDataSource, itemNodeId);
-            alert(item.Description);
-        },
-
         _setOption: function (key, value) {
             self._super(key, value);
             if (key === "source") {
@@ -214,7 +209,6 @@
         },
 
         destroy: function () {
-            // Use the destroy method to reverse everything your plugin has applied
             $.Widget.prototype.destroy.call(this);
         }
     });

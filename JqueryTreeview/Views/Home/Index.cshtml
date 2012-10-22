@@ -5,8 +5,31 @@
 <script type="text/javascript" src="~/Scripts/jquery-treeview.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#build_tree_here_widget").treeview({ source: "/Home/LongGetCategories" });
+        $("#build_tree_here_widget").treeview({
+            source: "/Home/LongGetCategories"
+        }).data("treeview")._renderItem = function (spanText, item) {
+            if (item.Selectable) {
+                var spanSelect = $("<span />");
+                spanSelect.attr("id", item.Id);
+                spanSelect.addClass("span-selectable");
+                spanSelect.html("<b>Select</b>");
+                spanSelect.appendTo(spanText);
+            }
+
+            var spanName = $("<span />");
+            spanName.addClass("span-node-text");
+            spanName.html(item.Name);
+            spanName.appendTo(spanText);
+
+            var spanDelete = $("<span />");
+            spanDelete.attr("id", item.Id);
+            spanDelete.addClass("span-deletable");
+            spanDelete.data("delete", item);
+            spanDelete.html("<b>Delete</b>");
+            spanDelete.appendTo(spanText);
+        };
     });
 </script>
 <h2>Index</h2>
-<div id="build_tree_here_widget"></div><br/>
+<div id="build_tree_here_widget"></div>
+<br />

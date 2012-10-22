@@ -47,7 +47,6 @@
         cursor: pointer;
     }
 
-
         .treeview .hit-area.span-expand {
             background-position: -1px -37px;
         }
@@ -65,7 +64,6 @@
                 background-position: -1px -73px;
                 background-color: #ffffff;
             }
-
 
         .treeview .hit-area.span-collapse {
             background-position: -1px -55px;
@@ -85,13 +83,6 @@
                 background-color: #ffffff;
             }
 
-
-
-
-
-
-
-
     .treeview .with-child-node {
     }
 
@@ -103,12 +94,7 @@
 
     .treeview .span-collapse {
     }
-
-    .treeview .span-selectable {
-        cursor: pointer;
-        margin-left: 5px;
-    }
-
+    
     .treeview .span-node-text {
         margin-left: 5px;
     }
