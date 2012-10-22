@@ -13,10 +13,9 @@
         padding: 0px 3px 0px 16px;
     }
 
-    .treeview li {
+    .treeview li.node-bg-vimage {
         background: url(images/treeview-vertical-line.gif) no-repeat left top;
         height: 100%;
-        /*border: 1px solid #ddddff;*/
         background-position: -18px 0px;
     }
 
@@ -26,7 +25,6 @@
         width: 16px;
         margin-left: -16px;
         float: left;
-        /*border: 1px solid #ffdddd;*/
     }
 
         .treeview .no-hit-area.hit-last {
@@ -47,7 +45,6 @@
         margin-left: -16px;
         float: left;
         cursor: pointer;
-        /*border: 1px solid #ffdddd;*/
     }
 
 

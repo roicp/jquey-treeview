@@ -110,11 +110,16 @@
 
                 var nodeInnerTag = $("<li />");
                 nodeInnerTag.html(nodeText).attr("id", item.Id);
+                nodeInnerTag.addClass("node-bg-vimage");
 
                 if (item.HasChild) {
                     nodeInnerTag.removeClass("without-child-node").addClass("with-child-node");
                 } else {
                     nodeInnerTag.removeClass("with-child-node").addClass("without-child-node");
+                }
+                
+                if (hitPosition == "hit-last" || hitPosition == "hit-single") {
+                    nodeInnerTag.removeClass("node-bg-vimage");
                 }
 
                 nodeInnerTag.appendTo(baseElement);
