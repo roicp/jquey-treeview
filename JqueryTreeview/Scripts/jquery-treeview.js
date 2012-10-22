@@ -4,7 +4,7 @@
         _treeViewDataSource: null,
 
         options: {
-            //treeViewDataSource: null
+            source: null
         },
 
         _create: function () {
@@ -21,19 +21,21 @@
 
 
         _getChildrenNodes: function (itemId, currentItemDataSource, funcCallback) {
-            $.ajax({
-                type: "POST",
-                contentType: "application/json; charset=utf-8",
-                url: "/Home/LongGetCategories",
-                data: "{ 'upperId':'" + itemId + "' }",
-                dataType: "json",
-                success: function (data) {
-                    funcCallback(currentItemDataSource, data);
-                },
-                error: function () {
-                    alert("An error occurred when trying to obtain the children");
-                }
-            });
+            if (typeof this.options.source === "string") {
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    url: self.options.source,
+                    data: "{ 'upperId':'" + itemId + "' }",
+                    dataType: "json",
+                    success: function (data) {
+                        funcCallback(currentItemDataSource, data);
+                    },
+                    error: function () {
+                        alert("An error occurred when trying to obtain the nodes");
+                    }
+                });
+            };
         },
 
 
@@ -99,29 +101,34 @@
                     }
                 }
 
-
-
-
-
-                var nodeText = "";
-                nodeText += ((item.HasChild) ? "&nbsp;<span id='" + item.Id + "' class='span-expand hit-area " + hitPosition + "'></span>" : "&nbsp;<span id='" + item.Id + "' class='no-hit-area " + hitPosition + "'></span>");
-                nodeText += "&nbsp;<span class='span-node-text'>" + item.Name + "</span>";
-                nodeText += ((item.Selectable) ? "&nbsp;<span id='" + item.Id + "' class='span-selectable'>Select</span>" : "");
-
                 var nodeInnerTag = $("<li />");
-                nodeInnerTag.html(nodeText).attr("id", item.Id);
+                nodeInnerTag.attr("id", item.Id);
                 nodeInnerTag.addClass("node-bg-vimage");
+                nodeInnerTag.addClass("without-child-node");
 
                 if (item.HasChild) {
                     nodeInnerTag.removeClass("without-child-node").addClass("with-child-node");
-                } else {
-                    nodeInnerTag.removeClass("with-child-node").addClass("without-child-node");
                 }
-                
+
                 if (hitPosition == "hit-last" || hitPosition == "hit-single") {
                     nodeInnerTag.removeClass("node-bg-vimage");
                 }
 
+
+                var nodeSpanHit = $("<span />");
+                nodeSpanHit.attr("id", item.Id);
+                nodeSpanHit.addClass("no-hit-area");
+
+                if (item.HasChild) {
+                    nodeSpanHit.removeClass("no-hit-area").addClass("span-expand").addClass("hit-area");
+                }
+                
+                nodeSpanHit.addClass(hitPosition);
+                nodeSpanHit.appendTo(nodeInnerTag);
+
+                self._renderItem(nodeInnerTag, item);
+
+                nodeInnerTag.data("treeview-item", item);
                 nodeInnerTag.appendTo(baseElement);
             }
 
@@ -132,6 +139,23 @@
             baseElement.find(".span-selectable").bind("click", function () {
                 self._selectNode($(this).attr("id"));
             });
+        },
+
+        _renderItem: function (nodeInnerTag, item) {
+            var spanName = $("<span />");
+            spanName.addClass("span-node-text");
+            spanName.html(item.Name);
+            spanName.appendTo(nodeInnerTag);
+
+            if (item.Selectable) {
+                var spanSelect = $("<span />");
+                spanSelect.attr("id", item.Id);
+                spanSelect.addClass("span-selectable");
+                spanSelect.html("Select");
+                spanSelect.appendTo(nodeInnerTag);
+            }
+
+            return nodeInnerTag;
         },
 
         _switchCssClass: function (workNode) {
@@ -183,7 +207,10 @@
         },
 
         _setOption: function (key, value) {
-            this._super(key, value);
+            self._super(key, value);
+            if (key === "source") {
+                self._getChildrenNodes(0, null, self._getRootNodesCompleted);
+            }
         },
 
         destroy: function () {

@@ -13,11 +13,11 @@
         padding: 0px 3px 0px 16px;
     }
 
-    .treeview li.node-bg-vimage {
-        background: url(images/treeview-vertical-line.gif) no-repeat left top;
-        height: 100%;
-        background-position: -18px 0px;
-    }
+        .treeview li.node-bg-vimage {
+            background: url(images/treeview-vertical-line.gif) no-repeat left top;
+            height: 100%;
+            background-position: -18px 0px;
+        }
 
     .treeview .no-hit-area {
         background: url(images/treeview-line.gif) -1px -37px no-repeat;
@@ -105,13 +105,19 @@
     }
 
     .treeview .span-selectable {
+        cursor: pointer;
+        margin-left: 5px;
     }
 
     .treeview .span-node-text {
+        margin-left: 5px;
     }
 
-.treeviw .hit-first {
-}
+    .treeview .hit-first {
+    }
 
-.treeviw .hit-last {
-}
+    .treeview .hit-last {
+    }
+
+    .treeview .hit-single {
+    }
