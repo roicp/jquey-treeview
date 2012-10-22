@@ -148,14 +148,6 @@
             spanName.addClass("span-node-text");
             spanName.html(item.Name);
             spanName.appendTo(spanText);
-
-            if (item.Selectable) {
-                var spanSelect = $("<span />");
-                spanSelect.attr("id", item.Id);
-                spanSelect.addClass("span-selectable");
-                spanSelect.html("Select");
-                spanSelect.appendTo(spanText);
-            }
         },
 
         _switchCssClass: function (workNode) {
