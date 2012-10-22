@@ -183,13 +183,7 @@
         },
 
         _setOption: function (key, value) {
-            // Use the _setOption method to respond to changes to options
-            switch (key) {
-                case "length":
-                    break;
-            }
-
-            $.Widget.prototype._setOption.apply(this, arguments);
+            this._super(key, value);
         },
 
         destroy: function () {
