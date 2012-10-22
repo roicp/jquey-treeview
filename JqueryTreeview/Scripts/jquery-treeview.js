@@ -104,7 +104,7 @@
 
 
                 var nodeText = "";
-                nodeText += ((item.HasChild) ? "&nbsp;<span id='" + item.Id + "' class='span-expand hit-area " + hitPosition + "'></span>" : "&nbsp;<span id='" + item.Id + "' class='no-hit-area'></span>");
+                nodeText += ((item.HasChild) ? "&nbsp;<span id='" + item.Id + "' class='span-expand hit-area " + hitPosition + "'></span>" : "&nbsp;<span id='" + item.Id + "' class='no-hit-area " + hitPosition + "'></span>");
                 nodeText += "&nbsp;<span class='span-node-text'>" + item.Name + "</span>";
                 nodeText += ((item.Selectable) ? "&nbsp;<span id='" + item.Id + "' class='span-selectable'>Select</span>" : "");
 

@@ -14,6 +14,10 @@
     }
 
     .treeview li {
+        background: url(images/treeview-vertical-line.gif) no-repeat left top;
+        height: 100%;
+        /*border: 1px solid #ddddff;*/
+        background-position: -18px 0px;
     }
 
     .treeview .no-hit-area {
@@ -22,8 +26,18 @@
         width: 16px;
         margin-left: -16px;
         float: left;
-        border: 1px solid #ffdddd;
+        /*border: 1px solid #ffdddd;*/
     }
+
+        .treeview .no-hit-area.hit-last {
+            background-color: #ffffff;
+            background-position: -1px -55px;
+        }
+
+        .treeview .no-hit-area.hit-single {
+            background-color: #ffffff;
+            background-position: -1px -55px;
+        }
 
     .treeview .hit-area {
         background: url(images/treeview-default.gif) no-repeat left top;
@@ -33,7 +47,7 @@
         margin-left: -16px;
         float: left;
         cursor: pointer;
-        border: 1px solid #ffdddd;
+        /*border: 1px solid #ffdddd;*/
     }
 
 
@@ -47,10 +61,12 @@
 
             .treeview .hit-area.span-expand.hit-last {
                 background-position: -1px -109px;
+                background-color: #ffffff;
             }
 
             .treeview .hit-area.span-expand.hit-single {
                 background-position: -1px -73px;
+                background-color: #ffffff;
             }
 
 
@@ -64,10 +80,12 @@
 
             .treeview .hit-area.span-collapse.hit-last {
                 background-position: -1px -127px;
+                background-color: #ffffff;
             }
 
             .treeview .hit-area.span-collapse.hit-single {
                 background-position: -1px -91px;
+                background-color: #ffffff;
             }
 
 
