@@ -9,17 +9,10 @@
 
         _create: function () {
             self = this;
-            self._initializeTreeViewBaseTag();
-            self._getChildrenNodes(0, self._getRootNodesCompleted);
+            self._getChildrenNodes(0, self.element, self._getChildrenNodesCompleted);
         },
 
-        _initializeTreeViewBaseTag: function () {
-            var baseTag = $("<ul />");
-            baseTag.addClass("treeview");
-            baseTag.appendTo(self.element);
-        },
-
-        _getChildrenNodes: function (itemId, funcCallback) {
+        _getChildrenNodes: function (itemId, baseElement, funcCallback) {
             if (typeof self.options.source === "string") {
                 $.ajax({
                     type: "POST",
@@ -28,7 +21,7 @@
                     data: "{ 'upperId':'" + itemId + "' }",
                     dataType: "json",
                     success: function (data) {
-                        funcCallback(itemId, data);
+                        funcCallback(itemId, baseElement, data);
                     },
                     error: function () {
                         alert("An error occurred when trying to obtain the nodes");
@@ -37,18 +30,8 @@
             };
         },
 
-        _getRootNodesCompleted: function (itemId, data) {
+        _getChildrenNodesCompleted: function (itemId, baseElement, data) {
             if (data != null && data.length > 0) {
-                var baseElement = self.element.children(".treeview").first();
-                self._createNode(data, baseElement);
-
-                _expandNodesInPath();
-            }
-        },
-
-        _getChildrenNodesCompleted: function (itemId, data) {
-            if (data != null && data.length > 0) {
-                var baseElement = self.element.find("li[id='" + itemId + "']").first();
                 var childNodeTag = $("<ul />");
                 childNodeTag.addClass("treeview");
 
@@ -65,7 +48,7 @@
 
             self._switchCssClass(currentNode.children(".span-expand"));
 
-            self._getChildrenNodes(itemNodeId, self._getChildrenNodesCompleted);
+            self._getChildrenNodes(itemNodeId, currentNode, self._getChildrenNodesCompleted);
         },
 
         _collapseNode: function (itemNodeId) {
@@ -175,12 +158,12 @@
             self._super(key, value);
             
             if (key === "source") {
-                self._getChildrenNodes(0, self._getRootNodesCompleted);
+                self._getChildrenNodes(0, self.element, self._getChildrenNodesCompleted);
             }
 
-            if (key === "expandPaths") {
-                var s = "";
-            }
+            //if (key === "expandPaths") {
+            //    var s = "";
+            //}
         },
 
         destroy: function () {
