@@ -1,23 +1,32 @@
 ﻿(function ($) {
     $.widget("roicp.treeview", {
-        self: null,
+        mySelf: null,
+        executeExpandPaths: false,
 
         options: {
             source: null,
-            expandPaths: null
+            pathsToExpand: null,
+
+            // callbacks
+            onCompleted: null,
+            onExpanded: null,
+            onColapsed: null,
+            onNodeCreated: null
         },
 
         _create: function () {
-            self = this;
-            self._getChildrenNodes(0, self.element, self._getChildrenNodesCompleted);
+            executeExpandPaths = true;
+            mySelf = this;
+            
+            mySelf._getChildrenNodes(0, mySelf.element, mySelf._getChildrenNodesCompleted);
         },
 
         _getChildrenNodes: function (itemId, baseElement, funcCallback) {
-            if (typeof self.options.source === "string") {
+            if (typeof mySelf.options.source === "string") {
                 $.ajax({
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
-                    url: self.options.source,
+                    url: mySelf.options.source,
                     data: "{ 'upperId':'" + itemId + "' }",
                     dataType: "json",
                     success: function (data) {
@@ -35,28 +44,36 @@
                 var childTreeTag = $("<ul />");
                 childTreeTag.addClass("treeview");
 
-                self._createNode(data, childTreeTag);
+                mySelf._createNode(data, childTreeTag);
 
                 childTreeTag.appendTo(parentElement);
 
-                self._expandNodesInExpandPaths(self.options.expandPaths);
+                mySelf._trigger("onCompleted", null, {});
+                
+                if(executeExpandPaths) {
+                    mySelf._expandNodesInExpandPaths(mySelf.options.pathsToExpand);
+                }
             }
         },
 
         _expandNode: function (itemNodeId) {
-            var currentNode = self.element.find("li[id='" + itemNodeId + "']").first();
+            var currentNode = mySelf.element.find("li[id='" + itemNodeId + "']").first();
 
-            self._switchCssClass(currentNode.children(".span-expand"));
+            mySelf._switchCssClass(currentNode.children(".span-expand"));
 
-            self._getChildrenNodes(itemNodeId, currentNode, self._getChildrenNodesCompleted);
+            mySelf._getChildrenNodes(itemNodeId, currentNode, mySelf._getChildrenNodesCompleted);
+
+            mySelf._trigger("onExpanded", null, {});
         },
 
         _collapseNode: function (itemNodeId) {
-            var currentNode = self.element.find("li[id='" + itemNodeId + "']").first();
+            var currentNode = mySelf.element.find("li[id='" + itemNodeId + "']").first();
 
-            self._switchCssClass(currentNode.children(".span-collapse"));
+            mySelf._switchCssClass(currentNode.children(".span-collapse"));
 
             currentNode.children("ul").remove();
+
+            mySelf._trigger("onColapsed", null, {});
         },
 
         _createNode: function (dataSource, parentElement) {
@@ -103,7 +120,8 @@
                     nodeSpanHit.removeClass("no-hit-area").addClass("span-expand").addClass("hit-area");
 
                     nodeSpanHit.bind("click", function () {
-                        self._expandNode($(this).attr("id"));
+                        executeExpandPaths = false;
+                        mySelf._expandNode($(this).attr("id"));
                     });
                 }
 
@@ -115,11 +133,13 @@
                 var spanText = $("<span />");
                 spanText.addClass("span-node-render-container");
                 spanText.data("treeview-render-container-item", item);
-                self._renderItem(spanText, item);
+                mySelf._renderItem(spanText, item);
                 spanText.appendTo(nodeInnerTag);
 
                 // Attaching the new node to the parent element
                 nodeInnerTag.appendTo(parentElement);
+
+                mySelf._trigger("onNodeCreated", null, {});
             }
         },
 
@@ -137,14 +157,15 @@
                 workNode.removeClass("span-collapse").addClass("span-expand");
 
                 workNode.bind("click", function () {
-                    self._expandNode($(this).attr("id"));
+                    executeExpandPaths = false;
+                    mySelf._expandNode($(this).attr("id"));
                 });
             } else {
                 if (workNode.hasClass("span-expand")) {
                     workNode.removeClass("span-expand").addClass("span-collapse");
 
                     workNode.bind("click", function () {
-                        self._collapseNode($(this).attr("id"));
+                        mySelf._collapseNode($(this).attr("id"));
                     });
                 }
             }
@@ -152,29 +173,38 @@
 
         _expandNodesInExpandPaths: function (itens) {
             if ($.isArray(itens)) {
-                $(itens).each(function (index, value) {
+                $(itens).each(function () {
                     if ($.isArray(this)) {
-                        self._expandNodesInExpandPaths(this);
+                        mySelf._expandNodesInExpandPaths(this);
                     } else {
-                        
+                        var currentNode = mySelf.element.find("li[id='" + this + "']").first();
+
+                        if ($(itens).last()[0] != this) {
+                            if (currentNode.children(".span-expand").length > 0) {
+                                mySelf._expandNode(this);
+                            }
+                        } else {
+                            currentNode.effect("highlight", {}, 1500);
+                        }
                     }
                 });
             }
         },
 
         _setOption: function (key, value) {
-            self._super(key, value);
+            mySelf._super(key, value);
 
             if (key === "source") {
-                self._getChildrenNodes(0, self.element, self._getChildrenNodesCompleted);
+                mySelf._getChildrenNodes(0, mySelf.element, mySelf._getChildrenNodesCompleted);
             }
 
             if (key === "expandPaths") {
-                self._expandNodesInExpandPaths(self.options.expandPaths);
+                mySelf._expandNodesInExpandPaths(mySelf.options.expandPaths);
             }
         },
 
         destroy: function () {
+            mySelf.element.html("");
             $.Widget.prototype.destroy.call(this);
         }
     });

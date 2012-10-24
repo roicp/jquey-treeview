@@ -8,7 +8,7 @@
         margin-left: 5px;
         color: blue;
     }
-    
+
     .treeview .span-deletable {
         cursor: pointer;
         margin-left: 5px;
@@ -20,33 +20,20 @@
     $(document).ready(function () {
         $("#build_tree_here_widget").treeview({
             source: "/Home/LongGetCategories",
-            expandPaths: [[11, 1121, 112134], [12, 1222]]
+            pathsToExpand: [[11, 1121, 112133], [12, 1222]],
+            onCompleted: function (event, data) {
+            
+            },
+            onExpanded: function (event, data) {
+
+            },
+            onColapsed: function (event, data) {
+
+            },
+            onNodeCreated: function (event, data) {
+
+            }
         });
-        //}).data("treeview")._renderItem = function (spanText, item) {
-        //    if (item.Selectable) {
-        //        var spanSelect = $("<span />");
-        //        spanSelect.attr("id", item.Id);
-        //        spanSelect.addClass("span-selectable");
-        //        spanSelect.html("<b>Select " + item.Name + "</b>");
-        //        spanSelect.appendTo(spanText);
-        //    }
-
-        //    var spanName = $("<span />");
-        //    spanName.addClass("span-node-text");
-        //    spanName.html(item.Name);
-        //    spanName.appendTo(spanText);
-
-        //    var spanDelete = $("<span />");
-        //    spanDelete.attr("id", item.Id);
-        //    spanDelete.addClass("span-deletable");
-        //    spanDelete.html("<b>Delete</b>");
-        //    spanDelete.appendTo(spanText);
-
-        //    var spanGuigui = $("<span />");
-        //    spanGuigui.attr("id", item.Id);
-        //    spanGuigui.html("<b>Guilher Click</b>");
-        //    spanGuigui.appendTo(spanText);
-        //};
     });
 </script>
 <h2>Index</h2>
