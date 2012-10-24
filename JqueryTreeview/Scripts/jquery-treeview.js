@@ -2,6 +2,7 @@
     $.widget("roicp.treeview", {
         mySelf: null,
         executeExpandPaths: false,
+        countExpandPaths: 0,
 
         options: {
             source: null,
@@ -9,15 +10,15 @@
 
             // callbacks
             onCompleted: null,
-            onExpanded: null,
-            onColapsed: null,
+            onNodeExpanded: null,
+            onNodeColapsed: null,
             onNodeCreated: null
         },
 
         _create: function () {
             executeExpandPaths = true;
             mySelf = this;
-            
+
             mySelf._getChildrenNodes(0, mySelf.element, mySelf._getChildrenNodesCompleted);
         },
 
@@ -49,8 +50,8 @@
                 childTreeTag.appendTo(parentElement);
 
                 mySelf._trigger("onCompleted", null, {});
-                
-                if(executeExpandPaths) {
+
+                if (executeExpandPaths) {
                     mySelf._expandNodesInExpandPaths(mySelf.options.pathsToExpand);
                 }
             }
@@ -63,7 +64,7 @@
 
             mySelf._getChildrenNodes(itemNodeId, currentNode, mySelf._getChildrenNodesCompleted);
 
-            mySelf._trigger("onExpanded", null, {});
+            mySelf._trigger("onNodeExpanded", null, {});
         },
 
         _collapseNode: function (itemNodeId) {
@@ -73,7 +74,7 @@
 
             currentNode.children("ul").remove();
 
-            mySelf._trigger("onColapsed", null, {});
+            mySelf._trigger("onNodeColapsed", null, {});
         },
 
         _createNode: function (dataSource, parentElement) {
@@ -173,21 +174,39 @@
 
         _expandNodesInExpandPaths: function (itens) {
             if ($.isArray(itens)) {
-                $(itens).each(function () {
-                    if ($.isArray(this)) {
-                        mySelf._expandNodesInExpandPaths(this);
+                for (var i = 0; i < itens.length; i++) {
+                    if ($.isArray(itens[i])) {
+                        mySelf._expandNodesInExpandPaths(itens[i]);
                     } else {
-                        var currentNode = mySelf.element.find("li[id='" + this + "']").first();
+                        var currentNode = mySelf.element.find("li[id='" + itens[i] + "']").first();
 
-                        if ($(itens).last()[0] != this) {
+                        if ($(itens).last()[0] != itens[i]) {
                             if (currentNode.children(".span-expand").length > 0) {
-                                mySelf._expandNode(this);
+                                mySelf._expandNode(itens[i]);
                             }
                         } else {
-                            currentNode.effect("highlight", {}, 1500);
+                            $(currentNode.children(".span-node-render-container")[0]).effect("highlight", {}, 1500);
                         }
                     }
-                });
+                };
+
+                //$(itens).each(function () {
+                //    if ($.isArray(this)) {
+                //        mySelf._expandNodesInExpandPaths(this);
+                //    } else {
+                //        var currentNode = mySelf.element.find("li[id='" + this + "']").first();
+
+                //        if ($(itens).last()[0] != this) {
+                //            if (currentNode.children(".span-expand").length > 0) {
+                //                mySelf._expandNode(this);
+                //            }
+                //        } else {
+                //            $(currentNode.children(".span-node-render-container")[0]).effect("highlight", {}, 1500);
+                //            mySelf.countExpandPaths++;
+                //            alert(mySelf.countExpandPaths);
+                //        }
+                //    }
+                //});
             }
         },
 

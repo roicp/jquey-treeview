@@ -20,14 +20,14 @@
     $(document).ready(function () {
         $("#build_tree_here_widget").treeview({
             source: "/Home/LongGetCategories",
-            pathsToExpand: [[11, 1121, 112133], [12, 1222]],
+            pathsToExpand: [[11, 1121, 112133], [12, 1222], [11, 1123, 112333]],
             onCompleted: function (event, data) {
             
             },
-            onExpanded: function (event, data) {
+            onNodeExpanded: function (event, data) {
 
             },
-            onColapsed: function (event, data) {
+            onNodeColapsed: function (event, data) {
 
             },
             onNodeCreated: function (event, data) {
