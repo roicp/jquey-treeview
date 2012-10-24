@@ -30,16 +30,16 @@
             };
         },
 
-        _getChildrenNodesCompleted: function (itemId, baseElement, data) {
+        _getChildrenNodesCompleted: function (itemId, parentElement, data) {
             if (data != null && data.length > 0) {
-                var childNodeTag = $("<ul />");
-                childNodeTag.addClass("treeview");
+                var childTreeTag = $("<ul />");
+                childTreeTag.addClass("treeview");
 
-                self._createNode(data, childNodeTag);
+                self._createNode(data, childTreeTag);
 
-                childNodeTag.appendTo(baseElement);
+                childTreeTag.appendTo(parentElement);
 
-                _expandNodesInPath();
+                self._expandNodesInExpandPaths(self.options.expandPaths);
             }
         },
 
@@ -150,20 +150,28 @@
             }
         },
 
-        _expandNodesInPath: function () {
-            
+        _expandNodesInExpandPaths: function (itens) {
+            if ($.isArray(itens)) {
+                $(itens).each(function (index, value) {
+                    if ($.isArray(this)) {
+                        self._expandNodesInExpandPaths(this);
+                    } else {
+                        
+                    }
+                });
+            }
         },
 
         _setOption: function (key, value) {
             self._super(key, value);
-            
+
             if (key === "source") {
                 self._getChildrenNodes(0, self.element, self._getChildrenNodesCompleted);
             }
 
-            //if (key === "expandPaths") {
-            //    var s = "";
-            //}
+            if (key === "expandPaths") {
+                self._expandNodesInExpandPaths(self.options.expandPaths);
+            }
         },
 
         destroy: function () {
