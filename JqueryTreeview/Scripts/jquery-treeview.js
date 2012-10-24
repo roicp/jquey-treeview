@@ -38,15 +38,15 @@
         },
 
         _getRootNodesCompleted: function (itemId, data) {
-            var baseElement = self.element.children(".treeview").first();
-
-            self._createNode(data, baseElement);
+            if (data != null && data.length > 0) {
+                var baseElement = self.element.children(".treeview").first();
+                self._createNode(data, baseElement);
+            }
         },
 
         _getChildrenNodesCompleted: function (itemId, data) {
             if (data != null && data.length > 0) {
                 var baseElement = self.element.find("li[id='" + itemId + "']").first();
-
                 var childNodeTag = $("<ul />");
 
                 self._createNode(data, childNodeTag);
@@ -57,11 +57,10 @@
 
         _expandNode: function (itemNodeId) {
             var currentNode = self.element.find("li[id='" + itemNodeId + "']").first();
-            var currentItem = currentNode.children(".span-node-render-container").first().data("treeview-render-container-item");
 
             self._switchCssClass(currentNode.children(".span-expand"));
 
-            self._getChildrenNodes(currentItem.Id, self._getChildrenNodesCompleted);
+            self._getChildrenNodes(itemNodeId, self._getChildrenNodesCompleted);
         },
 
         _collapseNode: function (itemNodeId) {
@@ -163,7 +162,7 @@
             }
         },
 
-        
+
 
         _setOption: function (key, value) {
             self._super(key, value);
