@@ -20,7 +20,7 @@
         },
 
         _getChildrenNodes: function (itemId, funcCallback) {
-            if (typeof this.options.source === "string") {
+            if (typeof self.options.source === "string") {
                 $.ajax({
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
@@ -41,6 +41,8 @@
             if (data != null && data.length > 0) {
                 var baseElement = self.element.children(".treeview").first();
                 self._createNode(data, baseElement);
+
+                _expandNodesInPath();
             }
         },
 
@@ -48,10 +50,13 @@
             if (data != null && data.length > 0) {
                 var baseElement = self.element.find("li[id='" + itemId + "']").first();
                 var childNodeTag = $("<ul />");
+                childNodeTag.addClass("treeview");
 
                 self._createNode(data, childNodeTag);
 
                 childNodeTag.appendTo(baseElement);
+
+                _expandNodesInPath();
             }
         },
 
@@ -162,10 +167,19 @@
             }
         },
 
+        _expandNodesInPath: function () {
+            
+        },
+
         _setOption: function (key, value) {
             self._super(key, value);
+            
             if (key === "source") {
                 self._getChildrenNodes(0, self._getRootNodesCompleted);
+            }
+
+            if (key === "expandPaths") {
+                var s = "";
             }
         },
 
