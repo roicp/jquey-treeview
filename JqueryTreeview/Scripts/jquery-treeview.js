@@ -1,10 +1,10 @@
 ﻿(function ($) {
     $.widget("roicp.treeview", {
         self: null,
-        _treeViewDataSource: null,
 
         options: {
-            source: null
+            source: null,
+            expandPaths: null
         },
 
         _create: function () {
@@ -71,7 +71,7 @@
             currentNode.children("ul").remove();
         },
 
-        _createNode: function (dataSource, baseElement) {
+        _createNode: function (dataSource, parentElement) {
             for (var i = 0; i < dataSource.length; i++) {
                 var item = dataSource[i];
                 var hitPosition;
@@ -92,6 +92,7 @@
                     }
                 }
 
+                // Create the base node li tag
                 var nodeInnerTag = $("<li />");
                 nodeInnerTag.attr("id", item.Id);
                 nodeInnerTag.addClass("node-bg-vimage");
@@ -105,34 +106,33 @@
                     nodeInnerTag.removeClass("node-bg-vimage");
                 }
 
-
+                // Create the span hit area (where the plus and minus sign appears)
                 var nodeSpanHit = $("<span />");
                 nodeSpanHit.attr("id", item.Id);
                 nodeSpanHit.addClass("no-hit-area");
 
                 if (item.HasChild) {
                     nodeSpanHit.removeClass("no-hit-area").addClass("span-expand").addClass("hit-area");
+
+                    nodeSpanHit.bind("click", function () {
+                        self._expandNode($(this).attr("id"));
+                    });
                 }
 
                 nodeSpanHit.addClass(hitPosition);
                 nodeSpanHit.appendTo(nodeInnerTag);
 
+                // Create a span to be used as a render node container.
+                // The content of this container could be overridden by a custom _renderItem method.
                 var spanText = $("<span />");
                 spanText.addClass("span-node-render-container");
                 spanText.data("treeview-render-container-item", item);
                 self._renderItem(spanText, item);
                 spanText.appendTo(nodeInnerTag);
 
-                nodeInnerTag.appendTo(baseElement);
+                // Attaching the new node to the parent element
+                nodeInnerTag.appendTo(parentElement);
             }
-
-            baseElement.find(".span-expand").bind("click", function () {
-                self._expandNode($(this).attr("id"));
-            });
-
-            baseElement.find(".span-selectable").bind("click", function () {
-                self._selectNode($(this).attr("id"));
-            });
         },
 
         _renderItem: function (spanText, item) {
@@ -162,12 +162,10 @@
             }
         },
 
-
-
         _setOption: function (key, value) {
             self._super(key, value);
             if (key === "source") {
-                self._getChildrenNodes(0, null, self._getRootNodesCompleted);
+                self._getChildrenNodes(0, self._getRootNodesCompleted);
             }
         },
 
