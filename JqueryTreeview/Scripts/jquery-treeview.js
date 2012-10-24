@@ -10,7 +10,7 @@
         _create: function () {
             self = this;
             self._initializeTreeViewBaseTag();
-            self._getChildrenNodes(0, null, self._getRootNodesCompleted);
+            self._getChildrenNodes(0, self._getRootNodesCompleted);
         },
 
         _initializeTreeViewBaseTag: function () {
@@ -19,8 +19,7 @@
             baseTag.appendTo(self.element);
         },
 
-
-        _getChildrenNodes: function (itemId, currentItemDataSource, funcCallback) {
+        _getChildrenNodes: function (itemId, funcCallback) {
             if (typeof this.options.source === "string") {
                 $.ajax({
                     type: "POST",
@@ -29,7 +28,7 @@
                     data: "{ 'upperId':'" + itemId + "' }",
                     dataType: "json",
                     success: function (data) {
-                        funcCallback(currentItemDataSource, data);
+                        funcCallback(itemId, data);
                     },
                     error: function () {
                         alert("An error occurred when trying to obtain the nodes");
@@ -38,46 +37,39 @@
             };
         },
 
-
-        _getRootNodesCompleted: function (currentItemDataSource, data) {
-            self._treeViewDataSource = data;
+        _getRootNodesCompleted: function (itemId, data) {
             var baseElement = self.element.children(".treeview").first();
 
-            self._createNode(self._treeViewDataSource, baseElement);
+            self._createNode(data, baseElement);
         },
 
-        _getChildrenNodesCompleted: function (currentItemDataSource, data) {
-            currentItemDataSource.Children = data;
-            if (currentItemDataSource.Children != null && currentItemDataSource.Children.length > 0) {
-                var baseElement = self.element.find("li[id='" + currentItemDataSource.Id + "']").first();
+        _getChildrenNodesCompleted: function (itemId, data) {
+            if (data != null && data.length > 0) {
+                var baseElement = self.element.find("li[id='" + itemId + "']").first();
 
                 var childNodeTag = $("<ul />");
 
-                self._createNode(currentItemDataSource.Children, childNodeTag);
+                self._createNode(data, childNodeTag);
 
                 childNodeTag.appendTo(baseElement);
             }
         },
 
-
         _expandNode: function (itemNodeId) {
-            var currentItem = self._findItemInDataSource(self._treeViewDataSource, itemNodeId);
-            var currentNode = self.element.find("li[id='" + currentItem.Id + "']").first();
+            var currentNode = self.element.find("li[id='" + itemNodeId + "']").first();
+            var currentItem = currentNode.children(".span-node-render-container").first().data("treeview-render-container-item");
 
             self._switchCssClass(currentNode.children(".span-expand"));
 
-            self._getChildrenNodes(currentItem.Id, currentItem, self._getChildrenNodesCompleted);
+            self._getChildrenNodes(currentItem.Id, self._getChildrenNodesCompleted);
         },
 
         _collapseNode: function (itemNodeId) {
-            var currentItem = self._findItemInDataSource(self._treeViewDataSource, itemNodeId);
-            var currentNode = self.element.find("li[id='" + currentItem.Id + "']").first();
+            var currentNode = self.element.find("li[id='" + itemNodeId + "']").first();
 
             self._switchCssClass(currentNode.children(".span-collapse"));
 
             currentNode.children("ul").remove();
-
-            currentItem.Children = null;
         },
 
         _createNode: function (dataSource, baseElement) {
@@ -122,12 +114,13 @@
                 if (item.HasChild) {
                     nodeSpanHit.removeClass("no-hit-area").addClass("span-expand").addClass("hit-area");
                 }
-                
+
                 nodeSpanHit.addClass(hitPosition);
                 nodeSpanHit.appendTo(nodeInnerTag);
 
                 var spanText = $("<span />");
-                spanText.data("roicp-treeview-item", item);
+                spanText.addClass("span-node-render-container");
+                spanText.data("treeview-render-container-item", item);
                 self._renderItem(spanText, item);
                 spanText.appendTo(nodeInnerTag);
 
@@ -170,28 +163,7 @@
             }
         },
 
-        _findItemInDataSource: function (dataSource, itemId) {
-            var currentNode = null;
-
-            for (var i = 0; i < dataSource.length; i++) {
-                var item = dataSource[i];
-
-                if (item.Id == itemId) {
-                    currentNode = item;
-                    break;
-                }
-
-                if (item.Children != null && item.Children.length > 0) {
-                    currentNode = self._findItemInDataSource(item.Children, itemId);
-
-                    if (currentNode != null) {
-                        break;
-                    }
-                }
-            }
-
-            return currentNode;
-        },
+        
 
         _setOption: function (key, value) {
             self._super(key, value);

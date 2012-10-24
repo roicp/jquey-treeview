@@ -95,6 +95,9 @@
     .treeview .span-collapse {
     }
 
+    .treeview .span-node-render-container {
+    }
+
     .treeview .span-node-text {
         margin-left: 5px;
     }
