@@ -2,7 +2,8 @@
     $.widget("roicp.treeview", {
         mySelf: null,
         executeExpandPaths: false,
-        countExpandPaths: 0,
+        countExpandPathsItens: 0,
+        testCounter:0,
 
         options: {
             source: null,
@@ -16,9 +17,12 @@
         },
 
         _create: function () {
-            executeExpandPaths = true;
             mySelf = this;
+            executeExpandPaths = true;
+            countExpandPathsItens = 0;
+            testCounter = 0;
 
+            mySelf._countExpandPathsItens(mySelf.options.pathsToExpand);
             mySelf._getChildrenNodes(0, mySelf.element, mySelf._getChildrenNodesCompleted);
         },
 
@@ -172,41 +176,34 @@
             }
         },
 
+        _countExpandPathsItens: function (itens) {
+            if ($.isArray(itens)) {
+                for (var i = 0; i < itens.length; i++) {
+                    countExpandPathsItens += itens[i].length;
+                }
+            }
+        },
+
         _expandNodesInExpandPaths: function (itens) {
             if ($.isArray(itens)) {
                 for (var i = 0; i < itens.length; i++) {
-                    if ($.isArray(itens[i])) {
-                        mySelf._expandNodesInExpandPaths(itens[i]);
-                    } else {
-                        var currentNode = mySelf.element.find("li[id='" + itens[i] + "']").first();
+                    var currentItem = itens[i];
 
-                        if ($(itens).last()[0] != itens[i]) {
+                    if ($.isArray(currentItem)) {
+                        mySelf._expandNodesInExpandPaths(currentItem);
+                    } else {
+                        var lastItem = $(itens).last()[0];
+                        var currentNode = mySelf.element.find("li[id='" + currentItem + "']").first();
+
+                        if (lastItem != currentItem) {
                             if (currentNode.children(".span-expand").length > 0) {
-                                mySelf._expandNode(itens[i]);
+                                mySelf._expandNode(currentItem);
                             }
-                        } else {
-                            $(currentNode.children(".span-node-render-container")[0]).effect("highlight", {}, 1500);
+                        }else {
+                            currentNode.children(".span-node-render-container").first().addClass("span-node-highlight");
                         }
                     }
                 };
-
-                //$(itens).each(function () {
-                //    if ($.isArray(this)) {
-                //        mySelf._expandNodesInExpandPaths(this);
-                //    } else {
-                //        var currentNode = mySelf.element.find("li[id='" + this + "']").first();
-
-                //        if ($(itens).last()[0] != this) {
-                //            if (currentNode.children(".span-expand").length > 0) {
-                //                mySelf._expandNode(this);
-                //            }
-                //        } else {
-                //            $(currentNode.children(".span-node-render-container")[0]).effect("highlight", {}, 1500);
-                //            mySelf.countExpandPaths++;
-                //            alert(mySelf.countExpandPaths);
-                //        }
-                //    }
-                //});
             }
         },
 

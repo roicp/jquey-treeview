@@ -110,3 +110,7 @@
 
     .treeview .hit-single {
     }
+    
+    .treeview .span-node-highlight {
+        font-weight: bold;
+    }
