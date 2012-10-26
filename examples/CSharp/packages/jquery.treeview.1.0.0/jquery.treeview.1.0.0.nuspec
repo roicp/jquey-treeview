@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>jquery.treeview</id>
+    <version>1.0.0</version>
+    <authors>Rodrigo</authors>
+    <owners>Rodrigo</owners>
+    <licenseUrl>https://github.com/roicp/jquey-treeview/blob/master/MIT-LICENSE.txt</licenseUrl>
+    <projectUrl>https://github.com/roicp/jquey-treeview</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Build a treeview easily</description>
+    <releaseNotes>This is the first version with basic features like: AJAX and highlight nodes.</releaseNotes>
+    <copyright>Copyright 2012</copyright>
+    <tags>jQuery UI Treeview</tags>
+    <dependencies>
+      <dependency id="jQuery" version="1.8.2" />
+      <dependency id="jQuery.UI.Combined" version="1.9.0" />
+    </dependencies>
+  </metadata>
+</package>
