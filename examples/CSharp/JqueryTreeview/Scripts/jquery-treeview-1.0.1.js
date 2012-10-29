@@ -64,7 +64,7 @@
         _expandNode: function (itemNodeId) {
             var currentNode = mySelf.element.find("li[id='" + itemNodeId + "']").first();
 
-            mySelf._switchCssClass(currentNode.children(".span-expand"));
+            mySelf._switchCssClass(currentNode.children(".scontainer-expand"));
 
             mySelf._getChildrenNodes(itemNodeId, currentNode, mySelf._getChildrenNodesCompleted);
 
@@ -74,7 +74,7 @@
         _collapseNode: function (itemNodeId) {
             var currentNode = mySelf.element.find("li[id='" + itemNodeId + "']").first();
 
-            mySelf._switchCssClass(currentNode.children(".span-collapse"));
+            mySelf._switchCssClass(currentNode.children(".scontainer-collapse"));
 
             currentNode.children("ul").remove();
 
@@ -122,7 +122,7 @@
                 nodeSpanHit.addClass("no-hit-area");
 
                 if (item.HasChild) {
-                    nodeSpanHit.removeClass("no-hit-area").addClass("span-expand").addClass("hit-area");
+                    nodeSpanHit.removeClass("no-hit-area").addClass("scontainer-expand").addClass("hit-area");
 
                     nodeSpanHit.bind("click", function () {
                         executeExpandPaths = false;
@@ -136,7 +136,7 @@
                 // Create a span to be used as a render node container.
                 // The content of this container could be overridden by a custom _renderItem method.
                 var spanText = $("<span />");
-                spanText.addClass("span-node-render-container");
+                spanText.addClass("scontainer-node-render-container");
                 spanText.data("treeview-render-container-item", item);
                 mySelf._renderItem(spanText, item);
                 spanText.appendTo(nodeInnerTag);
@@ -150,7 +150,7 @@
 
         _renderItem: function (spanText, item) {
             var spanName = $("<span />");
-            spanName.addClass("span-node-text");
+            spanName.addClass("scontainer-node-text");
             spanName.html(item.Name);
             spanName.appendTo(spanText);
         },
@@ -158,16 +158,16 @@
         _switchCssClass: function (workNode) {
             workNode.unbind('click');
 
-            if (workNode.hasClass("span-collapse")) {
-                workNode.removeClass("span-collapse").addClass("span-expand");
+            if (workNode.hasClass("scontainer-collapse")) {
+                workNode.removeClass("scontainer-collapse").addClass("scontainer-expand");
 
                 workNode.bind("click", function () {
                     executeExpandPaths = false;
                     mySelf._expandNode($(this).attr("id"));
                 });
             } else {
-                if (workNode.hasClass("span-expand")) {
-                    workNode.removeClass("span-expand").addClass("span-collapse");
+                if (workNode.hasClass("scontainer-expand")) {
+                    workNode.removeClass("scontainer-expand").addClass("scontainer-collapse");
 
                     workNode.bind("click", function () {
                         mySelf._collapseNode($(this).attr("id"));
@@ -196,11 +196,11 @@
                         var currentNode = mySelf.element.find("li[id='" + currentItem + "']").first();
 
                         if (lastItem != currentItem) {
-                            if (currentNode.children(".span-expand").length > 0) {
+                            if (currentNode.children(".scontainer-expand").length > 0) {
                                 mySelf._expandNode(currentItem);
                             }
                         }else {
-                            currentNode.children(".span-node-render-container").first().addClass("span-node-highlight");
+                            currentNode.children(".scontainer-node-render-container").first().addClass("scontainer-node-highlight");
                         }
                     }
                 };

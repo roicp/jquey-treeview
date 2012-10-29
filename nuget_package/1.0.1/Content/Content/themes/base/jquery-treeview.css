@@ -47,38 +47,38 @@
         cursor: pointer;
     }
 
-        .treeview .hit-area.span-expand {
+        .treeview .hit-area.scontainer-expand {
             background-position: -1px -37px;
         }
 
-            .treeview .hit-area.span-expand.hit-first {
+            .treeview .hit-area.scontainer-expand.hit-first {
                 background-position: -1px -1px;
             }
 
-            .treeview .hit-area.span-expand.hit-last {
+            .treeview .hit-area.scontainer-expand.hit-last {
                 background-position: -1px -109px;
                 background-color: #ffffff;
             }
 
-            .treeview .hit-area.span-expand.hit-single {
+            .treeview .hit-area.scontainer-expand.hit-single {
                 background-position: -1px -73px;
                 background-color: #ffffff;
             }
 
-        .treeview .hit-area.span-collapse {
+        .treeview .hit-area.scontainer-collapse {
             background-position: -1px -55px;
         }
 
-            .treeview .hit-area.span-collapse.hit-first {
+            .treeview .hit-area.scontainer-collapse.hit-first {
                 background-position: -1px -19px;
             }
 
-            .treeview .hit-area.span-collapse.hit-last {
+            .treeview .hit-area.scontainer-collapse.hit-last {
                 background-position: -1px -127px;
                 background-color: #ffffff;
             }
 
-            .treeview .hit-area.span-collapse.hit-single {
+            .treeview .hit-area.scontainer-collapse.hit-single {
                 background-position: -1px -91px;
                 background-color: #ffffff;
             }
@@ -89,16 +89,16 @@
     .treeview .without-child-node {
     }
 
-    .treeview .span-expand {
+    .treeview .scontainer-expand {
     }
 
-    .treeview .span-collapse {
+    .treeview .scontainer-collapse {
     }
 
-    .treeview .span-node-render-container {
+    .treeview .scontainer-node-render-container {
     }
 
-    .treeview .span-node-text {
+    .treeview .scontainer-node-text {
         margin-left: 5px;
     }
 
@@ -111,6 +111,6 @@
     .treeview .hit-single {
     }
     
-    .treeview .span-node-highlight {
+    .treeview .scontainer-node-highlight {
         font-weight: bold;
     }
