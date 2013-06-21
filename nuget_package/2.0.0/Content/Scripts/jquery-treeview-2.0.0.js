@@ -1,10 +1,12 @@
-﻿var Treeview = (function () {
+var Treeview = (function () {
     function treeview(element, options) {
         this.myObject = $(element);
         this.options = options;
 
-        this.myObject.empty();
+        if (this.myObject.attr("charged-myObject"))
+            this.myObject.html("");
 
+        this.myObject.attr("charged-myObject", true);
         this.renderItem = this.options.renderItem || this.renderItem;
         this.getChildrenNodes = this.options.getChildrenNodes || this.getChildrenNodes;
         this.getChildrenNodes(0, this.myObject, $.proxy(this.getChildrenNodesCompleted, this));
@@ -12,21 +14,39 @@
 
     treeview.prototype = {
         getChildrenNodes: function (itemId, baseElement, funcCallback) {
+            var dataToSend = { upperId: itemId };
+            $.extend(dataToSend, this.options.dataToSend);
+
             if (typeof this.options.sourceUrl === "string") {
                 $.ajax({
                     type: this.options.ajaxVerb,
                     contentType: "application/json; charset=utf-8",
                     url: this.options.sourceUrl,
-                    data: "{ 'upperId':'" + itemId + "' }",
+                    data: this.convertToString(dataToSend),
                     dataType: "json",
                     success: function (data) {
                         funcCallback(itemId, baseElement, data);
                     },
                     error: function (jqXhr, textStatus, errorThrown) {
-                        console("An error occurred when trying to obtain the nodes\n\njqXhr>" + jqXhr + "\n\ntextStatus>" + textStatus + "\n\nerrorThrown>" + errorThrown);
+                        console.log("An error occurred when trying to obtain the nodes\n\njqXhr>" + jqXhr + "\n\ntextStatus>" + textStatus + "\n\nerrorThrown>" + errorThrown);
                     }
                 });
             };
+        },
+
+        convertToString: function (obj) {
+            if (typeof JSON != "undefined") {
+                return JSON.stringify(obj);
+            }
+
+            var arr = [];
+            $.each(obj, function (key, val) {
+                var next = key + ": ";
+                next += $.isPlainObject(val) ? this.convertToString(val) : val;
+                arr.push(next);
+            });
+            
+            return "{ " + arr.join(", ") + " }";
         },
 
         getChildrenNodesCompleted: function (itemId, parentElement, data) {
@@ -166,6 +186,7 @@
     $.fn.treeview = function (options) {
         var opts = $.extend({
             sourceUrl: "",
+            dataToSend: null,
             ajaxVerb: "GET",
             onCompleted: null,
             onNodeExpanded: null,
