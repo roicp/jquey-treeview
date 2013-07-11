@@ -1,15 +1,13 @@
 var Treeview = (function () {
     function treeview(element, options) {
         this.myObject = $(element);
+        this.myObject.empty();
+
         this.options = options;
 
-        if (this.myObject.attr("charged-myObject"))
-            this.myObject.html("");
-
-        this.myObject.attr("charged-myObject", true);
         this.renderItem = this.options.renderItem || this.renderItem;
         this.getChildrenNodes = this.options.getChildrenNodes || this.getChildrenNodes;
-        this.getChildrenNodes(0, this.myObject, $.proxy(this.getChildrenNodesCompleted, this));
+        this.getChildrenNodes(0, this.myObject, $.proxy(this.getChildrenNodesSuccess, this));
     }
 
     treeview.prototype = {
@@ -31,29 +29,16 @@ var Treeview = (function () {
                         console.log("An error occurred when trying to obtain the nodes\n\njqXhr>" + jqXhr + "\n\ntextStatus>" + textStatus + "\n\nerrorThrown>" + errorThrown);
                     }
                 });
-            };
-        },
-
-        convertToString: function (obj) {
-            if (typeof JSON != "undefined") {
-                return JSON.stringify(obj);
             }
-
-            var arr = [];
-            $.each(obj, function (key, val) {
-                var next = key + ": ";
-                next += $.isPlainObject(val) ? this.convertToString(val) : val;
-                arr.push(next);
-            });
-            
-            return "{ " + arr.join(", ") + " }";
+            ;
         },
-
-        getChildrenNodesCompleted: function (itemId, parentElement, data) {
+        getChildrenNodesSuccess: function (itemId, parentElement, data) {
             if (data != null && data.length > 0) {
                 var childTreeTag = $("<ul />").addClass("treeview").appendTo(parentElement);
 
                 this.createNode(data, childTreeTag);
+
+                this.bindCheckboxes();
 
                 if (this.options.onCompleted)
                     this.options.onCompleted(childTreeTag, this.myObject);
@@ -61,18 +46,17 @@ var Treeview = (function () {
         },
 
         expandNode: function (itemNodeId) {
-            var currentNode = this.myObject.find("li[id='" + itemNodeId + "']").first();
+            var currentNode = this.getCurrentNodeById(itemNodeId);
 
             this.switchCssClass(currentNode.children(".scontainer-expand"));
 
-            this.getChildrenNodes(itemNodeId, currentNode, $.proxy(this.getChildrenNodesCompleted, this));
+            this.getChildrenNodes(itemNodeId, currentNode, $.proxy(this.getChildrenNodesSuccess, this));
 
             if (this.options.onNodeExpanded)
                 this.options.onNodeExpanded(this.myObject);
         },
-
         collapseNode: function (itemNodeId) {
-            var currentNode = this.myObject.find("li[id='" + itemNodeId + "']").first();
+            var currentNode = this.getCurrentNodeById(itemNodeId);
 
             this.switchCssClass(currentNode.children(".scontainer-collapse"));
 
@@ -83,6 +67,14 @@ var Treeview = (function () {
         },
 
         renderItem: function (spanText, item) {
+            if (this.options.showCheckbox) {
+                var checkbox = $("<input />").attr("type", "checkbox").attr("value", item.Id).addClass("node-checkbox");
+                checkbox.appendTo(spanText);
+
+                if (this.options.checkboxesName)
+                    checkbox.attr("name", this.options.checkboxesName);
+            }
+
             var spanName = $("<span />");
             spanName.addClass("scontainer-node-text");
             spanName.html(item.Name);
@@ -109,7 +101,6 @@ var Treeview = (function () {
                 }
             }
         },
-
         createNode: function (dataSource, parentElement) {
             for (var i = 0; i < dataSource.length; i++) {
                 var item = dataSource[i];
@@ -176,7 +167,58 @@ var Treeview = (function () {
                 if (this.options.onNodeCreated)
                     this.options.onNodeCreated(nodeInnerTag, parentElement, this.myObject);
             }
-        }
+        },
+        convertToString: function (obj) {
+            if (typeof JSON != "undefined") {
+                return JSON.stringify(obj);
+            }
+
+            var arr = [];
+            $.each(obj, function (key, val) {
+                var next = key + ": ";
+                next += $.isPlainObject(val) ? this.convertToString(val) : val;
+                arr.push(next);
+            });
+
+            return "{ " + arr.join(", ") + " }";
+        },
+        getCurrentNodeById: function (nodeId) {
+            return this.myObject.find("li[id='" + nodeId + "']").first();
+        },
+        bindCheckboxes: function () {
+            var checkboxes = this.myObject.find("input[type='checkbox']");
+            checkboxes.off("change");
+
+            var mySelf = this;
+            checkboxes.change(function () {
+                var currentIsChecked = $(this).prop("checked");
+                var container = $(this).parents("li").first();
+
+                container.find("input[type='checkbox']").prop({ checked: currentIsChecked });
+
+                mySelf.checkSiblingsState(container, currentIsChecked);
+            });
+        },
+        checkSiblingsState: function (currentContainer, currentIsChecked) {
+            var parent = currentContainer.parents("li").first();
+            var siblingsState = true;
+
+            var mySelf = this;
+            currentContainer.siblings().each(function () {
+                var siblingIsChecked = mySelf.getCurrentNodeCheckbox($(this)).prop("checked");
+                return siblingsState = (siblingIsChecked === currentIsChecked);
+            });
+
+            if (siblingsState) {
+                this.getCurrentNodeCheckbox(parent).prop({ checked: currentIsChecked });
+                this.checkSiblingsState(parent);
+            } else {
+                this.getCurrentNodeCheckbox(currentContainer.parents("li")).prop({ checked: false });
+            }
+        },
+        getCurrentNodeCheckbox : function(element) {
+            return element.children(".scontainer-node-render-container").children('input[type="checkbox"]');
+        },
     };
 
     return treeview;
@@ -184,7 +226,7 @@ var Treeview = (function () {
 
 (function ($) {
     $.fn.treeview = function (options) {
-        var opts = $.extend({
+        var defaults = {
             sourceUrl: "",
             dataToSend: null,
             ajaxVerb: "GET",
@@ -193,11 +235,15 @@ var Treeview = (function () {
             onNodeColapsed: null,
             onNodeCreated: null,
             renderItem: null,
-            getChildrenNodes: null
-        }, options);
+            getChildrenNodes: null,
+            showCheckbox: false,
+            checkboxesName: null
+        };
+
+        var settings = $.extend({}, defaults, options);
 
         this.each(function () {
-            return new Treeview(this, opts);
+            return new Treeview(this, settings);
         });
     };
 })(jQuery);
