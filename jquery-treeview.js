@@ -1,3 +1,5 @@
+// Version 2.0.0
+
 var Treeview = (function () {
     function treeview(element, options) {
         this.myObject = $(element);
