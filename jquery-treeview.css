@@ -1,10 +1,13 @@
-﻿.treeview, .treeview ul {
+﻿.treeview {
     padding: 0;
     margin: 0;
     list-style: none;
 }
 
     .treeview ul {
+        padding: 0;
+        margin: 0;
+        list-style: none;
         margin-top: 4px;
     }
 
@@ -15,7 +18,6 @@
 
         .treeview li.node-bg-vimage {
             background: url(images/treeview-vertical-line.gif) no-repeat left top;
-            height: 100%;
             background-position: -18px 0px;
         }
 
@@ -28,12 +30,10 @@
     }
 
         .treeview .no-hit-area.hit-last {
-            background-color: #ffffff;
             background-position: -1px -55px;
         }
 
         .treeview .no-hit-area.hit-single {
-            background-color: #ffffff;
             background-position: -1px -55px;
         }
 
@@ -57,12 +57,10 @@
 
             .treeview .hit-area.scontainer-expand.hit-last {
                 background-position: -1px -109px;
-                background-color: #ffffff;
             }
 
             .treeview .hit-area.scontainer-expand.hit-single {
                 background-position: -1px -73px;
-                background-color: #ffffff;
             }
 
         .treeview .hit-area.scontainer-collapse {
@@ -75,12 +73,10 @@
 
             .treeview .hit-area.scontainer-collapse.hit-last {
                 background-position: -1px -127px;
-                background-color: #ffffff;
             }
 
             .treeview .hit-area.scontainer-collapse.hit-single {
                 background-position: -1px -91px;
-                background-color: #ffffff;
             }
 
     .treeview .with-child-node {
@@ -110,7 +106,10 @@
 
     .treeview .hit-single {
     }
-    
+
     .treeview .scontainer-node-highlight {
         font-weight: bold;
+    }
+
+    .treeview .node-checkbox {
     }
