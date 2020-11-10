@@ -1,0 +1,178 @@
+{
+    "id": 1,
+    "name": "Brazil",
+    "children": [
+        {
+            "id": 4,
+            "name": "Acre",
+            "children": []
+        },
+        {
+            "id": 5,
+            "name": "Alagoas",
+            "children": []
+        },
+        {
+            "id": 6,
+            "name": "Amapá",
+            "children": []
+        },
+        {
+            "id": 7,
+            "name": "Amazonas",
+            "children": []
+        },
+        {
+            "id": 8,
+            "name": "Bahia",
+            "children": []
+        },
+        {
+            "id": 9,
+            "name": "Ceará",
+            "children": []
+        },
+        {
+            "id": 10,
+            "name": "Brasília (DF)",
+            "children": []
+        },
+        {
+            "id": 11,
+            "name": "Espírito Santo",
+            "children": []
+        },
+        {
+            "id": 12,
+            "name": "Goiás",
+            "children": []
+        },
+        {
+            "id": 13,
+            "name": "Maranhão",
+            "children": []
+        },
+        {
+            "id": 14,
+            "name": "Mato Grosso",
+            "children": []
+        },
+        {
+            "id": 15,
+            "name": "Mato Grosso do Sul",
+            "children": []
+        },
+        {
+            "id": 16,
+            "name": "Minas Gerais",
+            "children": []
+        },
+        {
+            "id": 17,
+            "name": "Pará",
+            "children": []
+        },
+        {
+            "id": 18,
+            "name": "Paraíba",
+            "children": []
+        },
+        {
+            "id": 19,
+            "name": "Paraná",
+            "children": []
+        },
+        {
+            "id": 20,
+            "name": "Pernambuco",
+            "children": []
+        },
+        {
+            "id": 21,
+            "name": "Piauí",
+            "children": []
+        },
+        {
+            "id": 22,
+            "name": "Rio de Janeiro",
+            "children": []
+        },
+        {
+            "id": 23,
+            "name": "Rio Grande do Norte",
+            "children": []
+        },
+        {
+            "id": 24,
+            "name": "Rio Grande do Sul",
+            "children": []
+        },
+        {
+            "id": 25,
+            "name": "Rondônia",
+            "children": []
+        },
+        {
+            "id": 26,
+            "name": "Roraima",
+            "children": []
+        },
+        {
+            "id": 27,
+            "name": "Santa Catarina",
+            "children": []
+        },
+        {
+            "id": 28,
+            "name": "São Paulo",
+            "children": [
+                {
+                    "id": 31,
+                    "name": "Barueri",
+                    "children": []
+                },
+                {
+                    "id": 32,
+                    "name": "São Paulo",
+                    "children": [
+                        {
+                            "id": 34,
+                            "name": "Pinheiros",
+                            "children": []
+                        },
+                        {
+                            "id": 35,
+                            "name": "Saúde",
+                            "children": []
+                        },
+                        {
+                            "id": 36,
+                            "name": "São Mateus",
+                            "children": []
+                        },
+                        {
+                            "id": 37,
+                            "name": "Vila Mariana",
+                            "children": []
+                        }
+                    ]
+                },
+                {
+                    "id": 33,
+                    "name": "São Vicente",
+                    "children": []
+                }
+            ]
+        },
+        {
+            "id": 29,
+            "name": "Sergipe",
+            "children": []
+        },
+        {
+            "id": 30,
+            "name": "Tocantins",
+            "children": []
+        }
+    ]
+}

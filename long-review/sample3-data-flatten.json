@@ -1,0 +1,187 @@
+[
+    {
+        "id": 1,
+        "name": "Brazil",
+        "parentId": null
+    },
+    {
+        "id": 4,
+        "name": "Acre",
+        "parentId": 1
+    },
+    {
+        "id": 5,
+        "name": "Alagoas",
+        "parentId": 1
+    },
+    {
+        "id": 6,
+        "name": "Amapá",
+        "parentId": 1
+    },
+    {
+        "id": 7,
+        "name": "Amazonas",
+        "parentId": 1
+    },
+    {
+        "id": 8,
+        "name": "Bahia",
+        "parentId": 1
+    },
+    {
+        "id": 9,
+        "name": "Ceará",
+        "parentId": 1
+    },
+    {
+        "id": 10,
+        "name": "Brasília (DF)",
+        "parentId": 1
+    },
+    {
+        "id": 11,
+        "name": "Espírito Santo",
+        "parentId": 1
+    },
+    {
+        "id": 12,
+        "name": "Goiás",
+        "parentId": 1
+    },
+    {
+        "id": 13,
+        "name": "Maranhão",
+        "parentId": 1
+    },
+    {
+        "id": 14,
+        "name": "Mato Grosso",
+        "parentId": 1
+    },
+    {
+        "id": 15,
+        "name": "Mato Grosso do Sul",
+        "parentId": 1
+    },
+    {
+        "id": 16,
+        "name": "Minas Gerais",
+        "parentId": 1
+    },
+    {
+        "id": 17,
+        "name": "Pará",
+        "parentId": 1
+    },
+    {
+        "id": 18,
+        "name": "Paraíba",
+        "parentId": 1
+    },
+    {
+        "id": 19,
+        "name": "Paraná",
+        "parentId": 1
+    },
+    {
+        "id": 20,
+        "name": "Pernambuco",
+        "parentId": 1
+    },
+    {
+        "id": 21,
+        "name": "Piauí",
+        "parentId": 1
+    },
+    {
+        "id": 22,
+        "name": "Rio de Janeiro",
+        "parentId": 1
+    },
+    {
+        "id": 23,
+        "name": "Rio Grande do Norte",
+        "parentId": 1
+    },
+    {
+        "id": 24,
+        "name": "Rio Grande do Sul",
+        "parentId": 1
+    },
+    {
+        "id": 25,
+        "name": "Rondônia",
+        "parentId": 1
+    },
+    {
+        "id": 26,
+        "name": "Roraima",
+        "parentId": 1
+    },
+    {
+        "id": 27,
+        "name": "Santa Catarina",
+        "parentId": 1
+    },
+    {
+        "id": 28,
+        "name": "São Paulo",
+        "parentId": 1
+    },
+    {
+        "id": 31,
+        "name": "Barueri",
+        "parentId": 28
+    },
+    {
+        "id": 32,
+        "name": "São Paulo",
+        "parentId": 28
+    },
+    {
+        "id": 34,
+        "name": "Pinheiros",
+        "parentId": 32
+    },
+    {
+        "id": 35,
+        "name": "Saúde",
+        "parentId": 32
+    },
+    {
+        "id": 36,
+        "name": "São Mateus",
+        "parentId": 32
+    },
+    {
+        "id": 37,
+        "name": "Vila Mariana",
+        "parentId": 32
+    },
+    {
+        "id": 33,
+        "name": "São Vicente",
+        "parentId": 28
+    },
+    {
+        "id": 29,
+        "name": "Sergipe",
+        "parentId": 1
+    },
+    {
+        "id": 30,
+        "name": "Tocantins",
+        "parentId": 1
+    },
+    {
+        "id": 2,
+        "name": "Australia",
+        "parentId": null
+    },
+    {
+        "id": 3,
+        "name": "Italy",
+        "parentId": null
+    }
+]
