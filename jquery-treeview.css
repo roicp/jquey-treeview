@@ -1,1 +1,41 @@
-﻿
+﻿.treeview {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.treeview ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    margin-top: 4px;
+}
+
+.treeview li {
+    margin: 0;
+    padding: 0 3px 0 16px;
+}
+
+.treeview .node-bg-vimage {
+    background-image: url(images/treeview-vertical-line.gif);
+    background-position: -18px 0;
+    background-repeat: repeat-y;
+}
+
+.treeview .no-hit-area {
+    background: url(images/treeview-line.gif) -1px -37px no-repeat;
+    height: 16px;
+    width: 16px;
+    margin-left: -16px;
+    float: left;
+}
+
+.treeview .hit-area {
+    background: url(images/treeview-default.gif) -1px -1px no-repeat;
+    background-color: #ffffff;
+    height: 16px;
+    width: 16px;
+    margin-left: -16px;
+    float: left;
+    cursor: pointer;
+}

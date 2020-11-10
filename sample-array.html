@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>jQuery Treeview</title>
+
+    <link href="jquery-treeview.css" rel="stylesheet">
+</head>
+
+<body>
+    <h1>jQuery Treeview - Sample Array</h1>
+    <div data-target="sample-array">
+    </div>
+
+    <script src="jquery-treeview.js"></script>
+    <script>
+        (function () {
+            var container = document.querySelector('[data-target="sample-array"]');
+
+            var settings = {
+                sourceUrl: 'sample-array-data.json'
+            };
+
+            var treeview = new Treeview(container, settings);
+        })();
+    </script>
+</body>
+
+</html>
