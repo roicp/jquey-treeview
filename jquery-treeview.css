@@ -33,13 +33,11 @@
 .treeview .no-hit-area.hit-last {
     background-color: #ffffff;
     background-position: -1px -55px;
-    background-repeat: no-repeat;
 }
 
 .treeview .no-hit-area.hit-single {
     background-color: #ffffff;
     background-position: -1px -55px;
-    background-repeat: no-repeat;
 }
 
 .treeview .hit-area {
@@ -50,4 +48,36 @@
     margin-left: -16px;
     float: left;
     cursor: pointer;
+}
+
+.treeview .hit-area.scontainer-expand {
+    background-position: -1px -37px;
+}
+
+.treeview .hit-area.scontainer-expand.hit-first {
+    background-position: -1px -1px;
+}
+
+.treeview .hit-area.scontainer-expand.hit-last {
+    background-position: -1px -109px;
+}
+
+.treeview .hit-area.scontainer-expand.hit-single {
+    background-position: -1px -73px;
+}
+
+.treeview .hit-area.scontainer-collapse {
+    background-position: -1px -55px;
+}
+
+.treeview .hit-area.scontainer-collapse.hit-first {
+    background-position: -1px -19px;
+}
+
+.treeview .hit-area.scontainer-collapse.hit-last {
+    background-position: -1px -127px;
+}
+
+.treeview .hit-area.scontainer-collapse.hit-single {
+    background-position: -1px -91px;
 }

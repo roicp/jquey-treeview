@@ -86,13 +86,19 @@ const Treeview = function (containerElement, settings) {
 
         if (value.children && value.children.length > 0) {
             nodeHitArea.classList.add('hit-area');
+            // nodeHitArea.classList.add('scontainer-expand');
 
             const childList = document.createElement('ul');
             currentNode.append(childList);
 
+            // nodeSpanHit.click(function () {
+            //     mySelf.expandNode($(this).attr("id"));
+            // });
+
             _buildTreeNodes(value.children, childList);
         } else {
             nodeHitArea.classList.add('no-hit-area');
+            // nodeHitArea.classList.add("without-child-node");
         }
     }
 
