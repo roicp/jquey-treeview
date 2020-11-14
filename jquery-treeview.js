@@ -80,13 +80,16 @@ const Treeview = function (containerElement, settings) {
             nodeHitArea.classList.add(hitPosition);
         }
 
+        if (hitPosition === "hit-last" || hitPosition === "hit-single") {
+            currentNode.classList.remove('node-bg-vimage');
+        }
+
         if (value.children && value.children.length > 0) {
             nodeHitArea.classList.add('hit-area');
 
             const childList = document.createElement('ul');
             currentNode.append(childList);
 
-            // value.children.forEach(item => _createNode(item, childList));
             _buildTreeNodes(value.children, childList);
         } else {
             nodeHitArea.classList.add('no-hit-area');
