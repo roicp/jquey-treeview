@@ -12,19 +12,28 @@
 
 <body>
     <h1>jQuery Treeview - Sample Array</h1>
+    <div data-target="sample-array-single-node">
+    </div>
+
     <div data-target="sample-array">
     </div>
 
     <script src="jquery-treeview.js"></script>
     <script>
         (function () {
-            var container = document.querySelector('[data-target="sample-array"]');
+            var containerSampleArray = document.querySelector('[data-target="sample-array"]');
+            var containerSingleNode = document.querySelector('[data-target="sample-array-single-node"]');
 
-            var settings = {
+            var settingsSampleArray = {
                 sourceUrl: 'sample-array-data.json'
             };
 
-            var treeview = new Treeview(container, settings);
+            var settingsSingleNode = {
+                sourceUrl: 'sample-array-data-single-node.json'
+            };
+
+            var treeviewSampleArray = new Treeview(containerSampleArray, settingsSampleArray);
+            var treeviewSingleNode = new Treeview(containerSingleNode, settingsSingleNode);
         })();
     </script>
 </body>

@@ -2,23 +2,21 @@ const Treeview = function (containerElement, settings) {
     'use strict';
 
     let options;
-    let baseList;
+    let baseListElement;
 
-    function init() {
+    function _init() {
         options = settings;
 
         containerElement.classList.add('treeview');
         containerElement.dataset.treeview = 'container';
 
-        baseList = document.createElement('ul');
-        containerElement.append(baseList);
+        baseListElement = document.createElement('ul');
+        containerElement.append(baseListElement);
 
-        containerElement.addEventListener('data-loaded', buildTreeNodes);
-
-        loadData();
+        _loadData();
     }
 
-    function loadData() {
+    function _loadData() {
         fetch(options.sourceUrl)
             .then(response => {
                 if (!response.ok) {
@@ -28,28 +26,45 @@ const Treeview = function (containerElement, settings) {
                 return response.json();
             })
             .then(data => {
-                const eventDataLoaded = new CustomEvent('data-loaded', {
-                    detail: data
-                });
-
-                containerElement.dispatchEvent(eventDataLoaded);
+                try {
+                    _buildTreeNodes(data, baseListElement);
+                } catch (error) {
+                    console.error('Build treenode:', error);
+                }
             })
             .catch(error => {
                 console.error('Load Data Error:', error);
             });
     }
 
-    function buildTreeNodes(event) {
-        const data = event.detail;
-
+    function _buildTreeNodes(data, listElement) {
         if (Array.isArray(data)) {
-            data.forEach(item => createNode(item, baseList));
+            const dataLength = data.length;
+
+            data.forEach((item, idx) => {
+                let hitPosition;
+
+                if (dataLength == 1) {
+                    hitPosition = "hit-single";
+                } else {
+                    switch (idx) {
+                        case 0:
+                            hitPosition = "hit-first";
+                            break;
+                        case dataLength - 1:
+                            hitPosition = "hit-last";
+                            break;
+                    }
+                }
+
+                _createNode(item, listElement, hitPosition);
+            });
         } else {
-            createNode(data, baseList);
+            _createNode(data, listElement, "hit-single");
         }
     }
 
-    function createNode(value, parentNode) {
+    function _createNode(value, parentNode, hitPosition) {
         const currentNode = document.createElement('li');
         currentNode.classList.add('node-bg-vimage');
         // currentNode.dataset.item = JSON.stringify(value);
@@ -61,15 +76,9 @@ const Treeview = function (containerElement, settings) {
         const nodeHitArea = document.createElement('span');
         currentNode.append(nodeHitArea);
 
-
-        const eventNodeCreated = new CustomEvent('node-created', {
-            detail: {
-                data: value,
-                element: currentNode
-            }
-        });
-
-        containerElement.dispatchEvent(eventNodeCreated);
+        if (hitPosition) {
+            nodeHitArea.classList.add(hitPosition);
+        }
 
         if (value.children && value.children.length > 0) {
             nodeHitArea.classList.add('hit-area');
@@ -77,13 +86,14 @@ const Treeview = function (containerElement, settings) {
             const childList = document.createElement('ul');
             currentNode.append(childList);
 
-            value.children.forEach(item => createNode(item, childList));
+            // value.children.forEach(item => _createNode(item, childList));
+            _buildTreeNodes(value.children, childList);
         } else {
             nodeHitArea.classList.add('no-hit-area');
         }
     }
 
-    init();
+    _init();
 
     return {
     };

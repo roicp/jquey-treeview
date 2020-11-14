@@ -30,6 +30,18 @@
     float: left;
 }
 
+.treeview .no-hit-area.hit-last {
+    background-color: #ffffff;
+    background-position: -1px -55px;
+    background-repeat: no-repeat;
+}
+
+.treeview .no-hit-area.hit-single {
+    background-color: #ffffff;
+    background-position: -1px -55px;
+    background-repeat: no-repeat;
+}
+
 .treeview .hit-area {
     background: url(images/treeview-default.gif) -1px -1px no-repeat;
     background-color: #ffffff;
